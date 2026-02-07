@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Optional
 
 from app.entities.issue import Issue, IssueStatus
 from app.interfaces.gateways.issue_repository import IssueRepository
@@ -6,7 +6,7 @@ from app.interfaces.gateways.issue_repository import IssueRepository
 
 class FakeIssueRepository(IssueRepository):
     def __init__(self):
-        self._storage: Dict[int, Issue] = {}
+        self._storage: dict[int, Issue] = {}
         self._next_id = 1
 
     def create(self, issue: Issue) -> Issue:

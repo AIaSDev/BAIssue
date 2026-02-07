@@ -5,10 +5,6 @@ from sqlalchemy import Column, DateTime, Integer, String, Text
 from app.core.database import Base
 
 
-def utc_now():
-    return datetime.now(timezone.utc).replace(tzinfo=None)
-
-
 class IssueModel(Base):
     __tablename__ = "issues"
 
@@ -16,5 +12,10 @@ class IssueModel(Base):
     title = Column(String(255), nullable=False)
     body = Column(Text, nullable=True)
     status = Column(String(16), nullable=False, default="open")
-    created_at = Column(DateTime, nullable=False, default=utc_now)
-    updated_at = Column(DateTime, nullable=False, default=utc_now, onupdate=utc_now)
+    created_at = Column(DateTime, nullable=False, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+    updated_at = Column(
+        DateTime,
+        nullable=False,
+        default=lambda: datetime.now(timezone.utc).replace(tzinfo=None),
+        onupdate=lambda: datetime.now(timezone.utc).replace(tzinfo=None),
+    )
