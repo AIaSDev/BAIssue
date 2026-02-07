@@ -1,7 +1,7 @@
 """Unit tests for GetIssue use case."""
 from app.use_cases.get_issue import GetIssue
 from app.use_cases.create_issue import CreateIssue
-from tests.unit.fake_repository import FakeIssueRepository
+from .fake_repository import FakeIssueRepository
 
 
 def test_get_issue():

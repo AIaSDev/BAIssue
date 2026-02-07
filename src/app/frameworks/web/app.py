@@ -2,15 +2,11 @@
 from fastapi import FastAPI
 
 from app.core.config import Config
-from app.core.database import init_db
 from app.interfaces.controllers.issue_controller import IssueController
 
 
-def create_app() -> FastAPI:
+def create_app(init_db: bool = True) -> FastAPI:
     """Create and configure the FastAPI application."""
-    # Initialize database
-    init_db()
-    
     # Create FastAPI app
     app = FastAPI(
         title=Config.API_TITLE,
@@ -27,6 +23,11 @@ def create_app() -> FastAPI:
     def health_check():
         """Health check endpoint."""
         return {"status": "healthy"}
+    
+    # Initialize database tables if requested
+    if init_db:
+        from app.core.database import init_db as _init_db
+        _init_db()
     
     return app
 

@@ -2,7 +2,7 @@
 from typing import List, Optional
 
 from fastapi import Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -20,14 +20,13 @@ class IssueCreate(BaseModel):
 
 class IssueResponse(BaseModel):
     """Response model for an issue."""
+    model_config = ConfigDict(from_attributes=True)
+    
     id: int
     title: str
     body: Optional[str]
     created_at: str
     updated_at: str
-    
-    class Config:
-        from_attributes = True
 
 
 class IssueController:
