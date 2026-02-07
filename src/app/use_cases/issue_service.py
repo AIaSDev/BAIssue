@@ -10,8 +10,17 @@ class IssueService:
         self.repository = repository
 
     def create_issue(self, title: str, body: Optional[str] = None) -> Issue:
+        if not title or not title.strip():
+            raise ValueError("Issue title cannot be empty")
+
         now = datetime.now(timezone.utc).replace(tzinfo=None)
-        issue = Issue(id=None, title=title, body=body, created_at=now, updated_at=now)
+        issue = Issue(
+            id=None,
+            title=title,
+            body=body,
+            created_at=now,
+            updated_at=now,
+        )
         return self.repository.create(issue)
 
     def get_issue(self, issue_id: int) -> Optional[Issue]:

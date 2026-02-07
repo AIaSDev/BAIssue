@@ -3,3 +3,4 @@ uvicorn[standard]
 SQLAlchemy>=2.0
 psycopg[binary]
 pytest
+httpx
