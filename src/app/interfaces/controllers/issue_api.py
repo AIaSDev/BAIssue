@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -39,7 +39,7 @@ def create_issue(payload: IssueCreate, db: Session = Depends(get_db)):
         raise HTTPException(400, str(e))
 
 
-@router.get("", response_model=list[IssueResponse])
+@router.get("", response_model=List[IssueResponse])
 def list_issues(db: Session = Depends(get_db)):
     return _service(db).list_issues()
 
