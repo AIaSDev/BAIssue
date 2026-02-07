@@ -4,24 +4,26 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import tempfile
 
 from src.core.database import get_db
-from src.frameworks.fastapi_app import app
 from src.frameworks.models import Base
 
-# Use in-memory SQLite for testing
-TEST_DATABASE_URL = "sqlite:///:memory:"
-
-engine = create_engine(
-    TEST_DATABASE_URL,
-    connect_args={"check_same_thread": False}
-)
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Use a temporary file-based SQLite for testing to avoid threading issues
+TEST_DATABASE_URL = f"sqlite:///{tempfile.gettempdir()}/test_issues.db"
 
 
 @pytest.fixture
 def test_db():
     """Create a fresh database for each test."""
+    # Remove existing test database
+    test_db_path = f"{tempfile.gettempdir()}/test_issues.db"
+    if os.path.exists(test_db_path):
+        os.remove(test_db_path)
+    
+    engine = create_engine(TEST_DATABASE_URL)
+    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    
     Base.metadata.create_all(bind=engine)
     db = TestingSessionLocal()
     try:
@@ -29,11 +31,18 @@ def test_db():
     finally:
         db.close()
         Base.metadata.drop_all(bind=engine)
+        engine.dispose()
+        # Clean up test database file
+        if os.path.exists(test_db_path):
+            os.remove(test_db_path)
 
 
 @pytest.fixture
 def client(test_db):
     """Create a test client with database override."""
+    # Import app here to avoid early initialization
+    from src.frameworks.fastapi_app import app
+    
     def override_get_db():
         try:
             yield test_db
