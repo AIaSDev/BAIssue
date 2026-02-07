@@ -2,7 +2,7 @@ import pytest
 
 from app.entities.issue import IssueStatus
 from app.use_cases.issue_service import IssueService
-from .fake_repository import FakeIssueRepository
+from fake_repository import FakeIssueRepository
 
 
 def test_create_issue_default_status_open():
