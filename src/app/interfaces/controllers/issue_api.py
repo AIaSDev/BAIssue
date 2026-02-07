@@ -1,6 +1,3 @@
-"""FastAPI controllers for issue management."""
-from __future__ import annotations
-
 from datetime import datetime
 from typing import List, Optional
 
@@ -9,6 +6,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
+from app.entities.issue import IssueStatus
 from app.frameworks.persistence.sqlalchemy_repository import SQLAlchemyIssueRepository
 from app.use_cases.issue_service import IssueService
 
@@ -24,33 +22,53 @@ class IssueResponse(BaseModel):
     id: int
     title: str
     body: Optional[str]
+    status: IssueStatus
     created_at: datetime
     updated_at: datetime
 
 
 def _service(db: Session) -> IssueService:
-    repo = SQLAlchemyIssueRepository(db)
-    return IssueService(repo)
+    return IssueService(SQLAlchemyIssueRepository(db))
 
 
 @router.post("", response_model=IssueResponse, status_code=201)
-def create_issue(payload: IssueCreate, db: Session = Depends(get_db)) -> IssueResponse:
+def create_issue(payload: IssueCreate, db: Session = Depends(get_db)):
     try:
-        issue = _service(db).create_issue(title=payload.title, body=payload.body)
-        return IssueResponse(**issue.__dict__)
+        return _service(db).create_issue(payload.title, payload.body)
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(400, str(e))
 
 
 @router.get("", response_model=List[IssueResponse])
-def list_issues(db: Session = Depends(get_db)) -> List[IssueResponse]:
-    issues = _service(db).list_issues()
-    return [IssueResponse(**i.__dict__) for i in issues]
+def list_issues(db: Session = Depends(get_db)):
+    return _service(db).list_issues()
 
 
 @router.get("/{issue_id}", response_model=IssueResponse)
-def get_issue(issue_id: int, db: Session = Depends(get_db)) -> IssueResponse:
+def get_issue(issue_id: int, db: Session = Depends(get_db)):
     issue = _service(db).get_issue(issue_id)
     if issue is None:
-        raise HTTPException(status_code=404, detail="Issue not found")
-    return IssueResponse(**issue.__dict__)
+        raise HTTPException(404, "Issue not found")
+    return issue
+
+
+@router.patch("/{issue_id}/close", response_model=IssueResponse)
+def close_issue(issue_id: int, db: Session = Depends(get_db)):
+    issue = _service(db).close_issue(issue_id)
+    if issue is None:
+        raise HTTPException(404, "Issue not found")
+    return issue
+
+
+@router.patch("/{issue_id}/reopen", response_model=IssueResponse)
+def reopen_issue(issue_id: int, db: Session = Depends(get_db)):
+    issue = _service(db).reopen_issue(issue_id)
+    if issue is None:
+        raise HTTPException(404, "Issue not found")
+    return issue
+
+
+@router.delete("/{issue_id}", status_code=204)
+def delete_issue(issue_id: int, db: Session = Depends(get_db)):
+    if not _service(db).delete_issue(issue_id):
+        raise HTTPException(404, "Issue not found")

@@ -1,9 +1,8 @@
-"""SQLAlchemy implementation of IssueRepository."""
 from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from app.entities.issue import Issue
+from app.entities.issue import Issue, IssueStatus
 from app.frameworks.persistence.models import IssueModel
 from app.interfaces.gateways.issue_repository import IssueRepository
 
@@ -16,6 +15,7 @@ class SQLAlchemyIssueRepository(IssueRepository):
         model = IssueModel(
             title=issue.title,
             body=issue.body,
+            status=issue.status.value,
             created_at=issue.created_at,
             updated_at=issue.updated_at,
         )
@@ -25,20 +25,29 @@ class SQLAlchemyIssueRepository(IssueRepository):
         return self._to_entity(model)
 
     def get_by_id(self, issue_id: int) -> Optional[Issue]:
-        model = (
-            self.session.query(IssueModel)
-            .filter(IssueModel.id == issue_id)
-            .first()
-        )
+        model = self.session.get(IssueModel, issue_id)
         return self._to_entity(model) if model else None
 
     def list_all(self) -> list[Issue]:
-        models = (
-            self.session.query(IssueModel)
-            .order_by(IssueModel.id.asc())
-            .all()
-        )
+        models = self.session.query(IssueModel).order_by(IssueModel.id.asc()).all()
         return [self._to_entity(m) for m in models]
+
+    def set_status(self, issue_id: int, status: IssueStatus) -> Optional[Issue]:
+        model = self.session.get(IssueModel, issue_id)
+        if model is None:
+            return None
+        model.status = status.value
+        self.session.commit()
+        self.session.refresh(model)
+        return self._to_entity(model)
+
+    def delete(self, issue_id: int) -> bool:
+        model = self.session.get(IssueModel, issue_id)
+        if model is None:
+            return False
+        self.session.delete(model)
+        self.session.commit()
+        return True
 
     @staticmethod
     def _to_entity(model: IssueModel) -> Issue:
@@ -46,6 +55,7 @@ class SQLAlchemyIssueRepository(IssueRepository):
             id=model.id,
             title=model.title,
             body=model.body,
+            status=IssueStatus(model.status),
             created_at=model.created_at,
             updated_at=model.updated_at,
         )

@@ -1,5 +1,6 @@
 """Main FastAPI application with route registration."""
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 
 from app.core.config import API_TITLE, API_VERSION, API_DESCRIPTION
 from app.interfaces.controllers.issue_api import router as issues_router
@@ -17,6 +18,10 @@ def create_app(init_db: bool = True) -> FastAPI:
     @app.get("/health")
     def health_check():
         return {"status": "healthy"}
+    
+    @app.get("/", include_in_schema=False)
+    def root():
+        return RedirectResponse(url="/docs")
 
     if init_db:
         from app.core.database import init_db as _init_db

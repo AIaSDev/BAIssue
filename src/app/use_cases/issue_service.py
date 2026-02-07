@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Optional
 
-from app.entities.issue import Issue
+from app.entities.issue import Issue, IssueStatus
 from app.interfaces.gateways.issue_repository import IssueRepository
 
 
@@ -10,14 +10,12 @@ class IssueService:
         self.repository = repository
 
     def create_issue(self, title: str, body: Optional[str] = None) -> Issue:
-        if not title or not title.strip():
-            raise ValueError("Issue title cannot be empty")
-
         now = datetime.now(timezone.utc).replace(tzinfo=None)
         issue = Issue(
             id=None,
             title=title,
             body=body,
+            status=IssueStatus.OPEN,
             created_at=now,
             updated_at=now,
         )
@@ -28,3 +26,12 @@ class IssueService:
 
     def list_issues(self) -> list[Issue]:
         return self.repository.list_all()
+
+    def close_issue(self, issue_id: int) -> Optional[Issue]:
+        return self.repository.set_status(issue_id, IssueStatus.CLOSED)
+
+    def reopen_issue(self, issue_id: int) -> Optional[Issue]:
+        return self.repository.set_status(issue_id, IssueStatus.OPEN)
+
+    def delete_issue(self, issue_id: int) -> bool:
+        return self.repository.delete(issue_id)

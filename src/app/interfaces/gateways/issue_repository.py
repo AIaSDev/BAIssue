@@ -1,8 +1,7 @@
-"""Repository interface for issue persistence."""
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from app.entities.issue import Issue
+from app.entities.issue import Issue, IssueStatus
 
 
 class IssueRepository(ABC):
@@ -14,3 +13,9 @@ class IssueRepository(ABC):
 
     @abstractmethod
     def list_all(self) -> list[Issue]: ...
+
+    @abstractmethod
+    def set_status(self, issue_id: int, status: IssueStatus) -> Optional[Issue]: ...
+
+    @abstractmethod
+    def delete(self, issue_id: int) -> bool: ...

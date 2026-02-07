@@ -96,3 +96,25 @@ def test_get_issue(client):
 def test_get_issue_not_found(client):
     r = client.get("/issues/999")
     assert r.status_code == 404
+
+
+def test_close_and_reopen_issue(client):
+    created = client.post("/issues", json={"title": "Test"}).json()
+    issue_id = created["id"]
+
+    closed = client.patch(f"/issues/{issue_id}/close").json()
+    assert closed["status"] == "closed"
+
+    reopened = client.patch(f"/issues/{issue_id}/reopen").json()
+    assert reopened["status"] == "open"
+
+
+def test_delete_issue(client):
+    created = client.post("/issues", json={"title": "Test"}).json()
+    issue_id = created["id"]
+
+    r = client.delete(f"/issues/{issue_id}")
+    assert r.status_code == 204
+
+    r = client.get(f"/issues/{issue_id}")
+    assert r.status_code == 404

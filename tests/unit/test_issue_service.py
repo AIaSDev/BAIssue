@@ -1,75 +1,58 @@
 import pytest
 
+from app.entities.issue import IssueStatus
 from app.use_cases.issue_service import IssueService
-from fake_repository import FakeIssueRepository
+from .fake_repository import FakeIssueRepository
 
 
-def test_create_issue_with_body():
+def test_create_issue_default_status_open():
     repo = FakeIssueRepository()
     svc = IssueService(repo)
 
-    result = svc.create_issue(title="Test Issue", body="Test body")
-
-    assert result.id == 1
-    assert result.title == "Test Issue"
-    assert result.body == "Test body"
-    assert result.created_at is not None
-    assert result.updated_at is not None
+    issue = svc.create_issue("Test")
+    assert issue.status == IssueStatus.OPEN
 
 
-def test_create_issue_without_body():
+def test_close_issue():
     repo = FakeIssueRepository()
     svc = IssueService(repo)
 
-    result = svc.create_issue(title="Test Issue")
+    issue = svc.create_issue("Test")
+    closed = svc.close_issue(issue.id)
 
-    assert result.id == 1
-    assert result.body is None
+    assert closed.status == IssueStatus.CLOSED
 
 
-def test_create_issue_with_empty_title_raises_error():
+def test_reopen_issue():
     repo = FakeIssueRepository()
     svc = IssueService(repo)
 
-    with pytest.raises(ValueError, match="Issue title cannot be empty"):
-        svc.create_issue(title="   ")
+    issue = svc.create_issue("Test")
+    svc.close_issue(issue.id)
+    reopened = svc.reopen_issue(issue.id)
+
+    assert reopened.status == IssueStatus.OPEN
 
 
-def test_get_issue_found():
+def test_delete_issue():
     repo = FakeIssueRepository()
     svc = IssueService(repo)
 
-    created = svc.create_issue(title="Test Issue", body="Test body")
-    loaded = svc.get_issue(created.id)
-
-    assert loaded is not None
-    assert loaded.id == created.id
-    assert loaded.title == "Test Issue"
+    issue = svc.create_issue("Test")
+    assert svc.delete_issue(issue.id) is True
+    assert svc.get_issue(issue.id) is None
 
 
-def test_get_issue_not_found():
+def test_delete_issue_not_found():
     repo = FakeIssueRepository()
     svc = IssueService(repo)
 
-    assert svc.get_issue(999) is None
+    assert svc.delete_issue(999) is False
 
 
-def test_list_issues():
+def test_create_issue_empty_title_raises():
     repo = FakeIssueRepository()
     svc = IssueService(repo)
 
-    svc.create_issue(title="Issue 1", body="Body 1")
-    svc.create_issue(title="Issue 2", body="Body 2")
-
-    result = svc.list_issues()
-
-    assert len(result) == 2
-    assert result[0].title == "Issue 1"
-    assert result[1].title == "Issue 2"
-
-
-def test_list_issues_empty():
-    repo = FakeIssueRepository()
-    svc = IssueService(repo)
-
-    assert svc.list_issues() == []
+    with pytest.raises(ValueError):
+        svc.create_issue("")

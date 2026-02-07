@@ -1,7 +1,6 @@
-"""Fake in-memory repository for testing."""
 from typing import Dict, Optional
 
-from app.entities.issue import Issue
+from app.entities.issue import Issue, IssueStatus
 from app.interfaces.gateways.issue_repository import IssueRepository
 
 
@@ -15,6 +14,7 @@ class FakeIssueRepository(IssueRepository):
             id=self._next_id,
             title=issue.title,
             body=issue.body,
+            status=issue.status,
             created_at=issue.created_at,
             updated_at=issue.updated_at,
         )
@@ -27,3 +27,13 @@ class FakeIssueRepository(IssueRepository):
 
     def list_all(self) -> list[Issue]:
         return list(self._storage.values())
+
+    def set_status(self, issue_id: int, status: IssueStatus) -> Optional[Issue]:
+        issue = self._storage.get(issue_id)
+        if issue is None:
+            return None
+        issue.status = status
+        return issue
+
+    def delete(self, issue_id: int) -> bool:
+        return self._storage.pop(issue_id, None) is not None
