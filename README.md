@@ -1,23 +1,18 @@
 # BAIssue
 
-A minimal **FastAPI** Business AI issue tracker demonstrating Clean Architecture **Clean Architecture** with **SQLite** (development & CI) and **PostgreSQL** (production) support.
-
----
+A minimal **FastAPI** issue tracker (Business AI wordplay) demonstrating **Clean Architecture** with **SQLite** (development & CI) and **PostgreSQL** (production) support.
 
 ## What is this?
 
-**BAIssue** is a small REST API for managing issues (a minimal subset of GitHub Issues).  
-It is designed primarily for **education** and demonstrates:
+**BAIssue** is a small REST API for managing issues (a minimal subset of GitHub Issues). It is designed primarily for **education** and demonstrates:
 
 - Clean Architecture terminology and layering
 - Clear separation of concerns
-- Testability (unit tests + integration tests)
+- Testability (unit tests + integration tests + optional E2E tests)
 - Minimal configuration and tooling
-- CI, Release, and manual CD with Docker
+- CI, tag-based releases, and manual CD with Docker + Render
 
----
-
-## Architecture Overview
+## Architecture overview
 
 The project follows **Clean Architecture**, with dependencies pointing inward.
 
@@ -27,12 +22,12 @@ src/app/
 │   └── issue.py                    # Issue entity with validation and status
 ├── application/                    # Application services (business logic)
 │   ├── issue_use_cases.py          # Issue use cases / business logic
-│   └── repositories/               # Repository interfaces (ports)
+│   └── repositories/               # Repository interfaces
 │       └── issue_repository.py
 ├── interfaces/
-│   ├── api/                        # HTTP layer (FastAPI routers)
+│   ├── api/                        # HTTP layer (FastAPI router)
 │   │   └── issue_api.py
-│   └── dependencies.py             # Interface-level dependency definitions (ports → use cases)
+│   └── dependencies.py             # Interface-level DI (ports → use cases)
 ├── infrastructure/
 │   ├── config.py                   # Environment-based configuration (.env optional)
 │   ├── database.py                 # SQLAlchemy engine, session, Base
@@ -40,35 +35,30 @@ src/app/
 │   │   ├── sqlalchemy_models.py    # SQLAlchemy ORM models
 │   │   └── sqlalchemy_repository.py
 │   └── web/                        # FastAPI application wiring
-│       ├── app.py                  # App factory and dependency wiring
+│       ├── app.py                  # App factory and wiring
 │       └── static/                 # Minimal static web UI
 │           └── index.html
 └── main.py                         # Application entry point
 ```
 
-### Dependency Rule
+### Dependency rule
 
-- **Domain** and **application** layers do not depend on FastAPI or SQLAlchemy
-- **Interfaces** define boundaries (ports)
-- **Infrastructure** implements technical details (web, database)
+- **Domain** and **application** layers do not depend on FastAPI or SQLAlchemy.
+- **Interfaces** define boundaries and dependency injection points.
+- **Infrastructure** implements technical details (web server, database, persistence).
 
----
-
-## Web UI and API Docs
-
-BAIssue provides two ways to interact with the system:
+## Web UI and API docs
 
 | Path | Purpose |
-|-----|---------|
+|------|---------|
 | `/ui` | Minimal web interface (HTML + JavaScript) |
 | `/docs` | Swagger / OpenAPI documentation |
 | `/` | Redirects to `/ui` |
+| `/health` | Simple health check |
 
-The web UI is intentionally minimal and exists only to demonstrate how the API can be consumed.
+The UI is intentionally minimal and exists only to demonstrate API consumption.
 
----
-
-## API Endpoints
+## API endpoints
 
 ### Issues
 
@@ -79,22 +69,15 @@ The web UI is intentionally minimal and exists only to demonstrate how the API c
 - `PATCH /issues/{issue_id}/close` – Close an issue
 - `PATCH /issues/{issue_id}/reopen` – Reopen an issue
 
-### Other
-
-- `GET /docs` – OpenAPI / Swagger UI
-- `GET /health` – Simple health check
-
 Issue status is represented using an enum:
 
 ```
 open | closed
 ```
 
----
+## Environment configuration
 
-## Environment Configuration
-
-Configuration is done **exclusively via environment variables**.
+Configuration is done **exclusively via environment variables**. A `.env` file is optional; if present, it can be loaded via `python-dotenv`. If it does not exist, the app still runs with defaults.
 
 ### Example `.env`
 
@@ -114,17 +97,16 @@ ENV=production
 # DATABASE_URL=sqlite:///:memory:
 
 # Production (PostgreSQL)
-DATABASE_URL=postgresql://user:password@host:5432/database
+DATABASE_URL=postgresql://user:password@host:5432/baissue
 ```
 
-> `.env` files must never be committed to version control.
+Notes:
+- Many providers use `postgresql://...` (or legacy `postgres://...`). The app normalizes these to SQLAlchemy’s driver URL internally.
+- **Never commit `.env`** (keep it in `.gitignore`).
 
----
-
-## Running Locally
+## Running locally
 
 ### Prerequisites
-
 - Python 3.11+
 - pip
 
@@ -134,7 +116,7 @@ DATABASE_URL=postgresql://user:password@host:5432/database
 pip install -r requirements.txt
 ```
 
-### Start the Application
+### Start the application
 
 By default, SQLite is used (`app.db`):
 
@@ -143,17 +125,13 @@ export PYTHONPATH=$PWD/src
 uvicorn app.main:app --reload
 ```
 
-Open in your browser:
-
+Open:
 - UI: http://localhost:8000/ui
 - API docs: http://localhost:8000/docs
 
----
-
 ## Testing
 
-### Unit Tests
-
+### Unit tests
 - No FastAPI
 - No SQLAlchemy
 - Uses a fake in-memory repository
@@ -163,9 +141,8 @@ export PYTHONPATH=$PWD/src
 pytest -q tests/unit
 ```
 
-### Integration Tests
-
-- FastAPI TestClient
+### Integration tests
+- FastAPI TestClient (requires `httpx`)
 - SQLite in-memory database
 
 ```bash
@@ -174,45 +151,51 @@ export DATABASE_URL=sqlite:///:memory:
 pytest -q tests/integration
 ```
 
----
+### E2E tests (Docker-based)
+E2E tests run against a **running Docker container** via real HTTP (using `httpx`).
+
+```bash
+export BASE_URL=http://127.0.0.1:8001
+pytest -q tests/e2e
+```
+
+In CI, the E2E job:
+1) builds the Docker image  
+2) runs the container on port 8001  
+3) executes `pytest -q tests/e2e`  
 
 ## Docker
 
 ### Build
-
 ```bash
 docker build -t baissue .
 ```
 
 ### Run (SQLite)
-
 ```bash
 docker run -p 8000:8000 baissue
 ```
 
 ### Run (PostgreSQL)
-
 ```bash
 docker run -p 8000:8000 \
-  -e DATABASE_URL=postgresql+psycopg://user:password@host:5432/database \
+  -e DATABASE_URL=postgresql://user:password@host:5432/baissue \
   baissue
 ```
 
----
+## CI, releases, and CD
 
-## CI, Releases, and CD
+### Continuous integration
+Workflow: **`.github/workflows/ci.yml`**
+- Unit tests
+- Integration tests (SQLite in-memory)
+- Optional E2E tests (Docker-based)
 
-### Continuous Integration
-
-- **ci.yml**
-- Runs unit tests and integration tests on every push and PR
-
-### Releases & Images
-
-- **Tag-based releases**
-- Push a tag `vX.Y.Z` to trigger:
-  - GitHub Release (auto-generated changelog)
-  - Docker image published to **GitHub Container Registry (GHCR)**
+### Releases & images (GHCR)
+Workflow: **`.github/workflows/release.yml`**
+- Tag-based releases: push a tag `vX.Y.Z`
+- Creates a GitHub Release (auto-generated notes)
+- Publishes Docker images to **GitHub Container Registry (GHCR)**
 
 ```bash
 git tag v0.1.0
@@ -223,15 +206,11 @@ Images:
 - `ghcr.io/<owner>/baissue:v0.1.0`
 - `ghcr.io/<owner>/baissue:latest`
 
-### Manual Continuous Deployment (Render)
-
-- Deployment is **manual**
-- Render pulls the **latest GHCR image**
-- Deployment is triggered via **Render Deploy Hook**
-- GitHub Action: `cd-render.yml`
-- Triggered using **workflow_dispatch**
-
----
+### Manual continuous deployment (Render)
+Workflow: **`.github/workflows/cd-render.yml`**
+- Deployment is **manual** (`workflow_dispatch`)
+- Render deploys the **latest GHCR image**
+- Triggered via a **Render Deploy Hook** URL stored as a GitHub secret
 
 ## License
 
