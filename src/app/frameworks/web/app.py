@@ -1,9 +1,13 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.orm import Session
 
 from app.core.config import API_TITLE, API_VERSION, API_DESCRIPTION
+from app.core.database import get_db
+from app.frameworks.persistence.sqlalchemy_repository import SQLAlchemyIssueRepository
 from app.interfaces.controllers.issue_api import router as issues_router
+from app.use_cases.issue_service import IssueService
 
 
 def create_app(init_db: bool = True) -> FastAPI:
@@ -12,6 +16,12 @@ def create_app(init_db: bool = True) -> FastAPI:
         version=API_VERSION,
         description=API_DESCRIPTION,
     )
+
+    def issue_service_provider(db: Session = Depends(get_db)) -> IssueService:
+        repo = SQLAlchemyIssueRepository(db)
+        return IssueService(repo)
+
+    app.dependency_overrides[IssueService] = issue_service_provider
 
     app.include_router(issues_router)
 

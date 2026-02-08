@@ -114,7 +114,7 @@ ENV=production
 # DATABASE_URL=sqlite:///:memory:
 
 # Production (PostgreSQL)
-DATABASE_URL=postgresql+psycopg://user:password@host:5432/database
+DATABASE_URL=postgresql://user:password@host:5432/database
 ```
 
 > `.env` files must never be committed to version control.
