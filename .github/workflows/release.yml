@@ -35,7 +35,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Build Docker image (no push yet)
+      - name: Build Docker image
         env:
           TAG: ${{ steps.tag.outputs.TAG }}
           PYTHON_VERSION: ${{ steps.pyver.outputs.version }}

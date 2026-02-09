@@ -83,11 +83,6 @@ Configuration is done **exclusively via environment variables**. A `.env` file i
 
 ```dotenv
 # -------------------------------------------------
-# Application environment
-# -------------------------------------------------
-ENV=production
-
-# -------------------------------------------------
 # Database configuration
 # -------------------------------------------------
 # Development (SQLite file)
