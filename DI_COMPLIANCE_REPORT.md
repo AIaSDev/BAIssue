@@ -317,7 +317,7 @@ def get_issue_service(db: Session = Depends(get_db)) -> IssueService:
 ```
 
 ### Compliance Check
-- ✅ Async def function (compatible with FastAPI)
+- ✅ Regular def function (FastAPI supports both sync and async)
 - ✅ Uses `Depends(get_db)` for session
 - ✅ Constructs repository with injected session
 - ✅ Constructs service with injected repository
