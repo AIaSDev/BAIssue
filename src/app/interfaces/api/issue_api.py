@@ -1,14 +1,3 @@
-"""
-FastAPI router for issue management endpoints.
-
-This is the presentation layer in Clean Architecture.
-It depends on the application layer (services) via dependency injection.
-
-Dependency Injection:
-- Route handlers receive IssueService via FastAPI's Depends mechanism
-- The actual service construction is handled by get_issue_service factory
-- No direct instantiation of dependencies in route handlers
-"""
 from datetime import datetime
 from typing import List, Optional
 
@@ -23,13 +12,11 @@ router = APIRouter(prefix="/issues", tags=["issues"])
 
 
 class IssueCreate(BaseModel):
-    """Request model for creating an issue."""
     title: str
     body: Optional[str] = None
 
 
 class IssueResponse(BaseModel):
-    """Response model for issue data."""
     id: int
     title: str
     body: Optional[str]
@@ -43,11 +30,6 @@ def create_issue(
     payload: IssueCreate,
     service: IssueService = Depends(get_issue_service),
 ):
-    """
-    Create a new issue.
-    
-    The IssueService is injected via FastAPI's Depends mechanism.
-    """
     try:
         return service.create_issue(payload.title, payload.body)
     except ValueError as e:
@@ -58,11 +40,6 @@ def create_issue(
 def list_issues(
     service: IssueService = Depends(get_issue_service),
 ):
-    """
-    List all issues.
-    
-    The IssueService is injected via FastAPI's Depends mechanism.
-    """
     return service.list_issues()
 
 
@@ -71,11 +48,6 @@ def get_issue(
     issue_id: int,
     service: IssueService = Depends(get_issue_service),
 ):
-    """
-    Get a single issue by ID.
-    
-    The IssueService is injected via FastAPI's Depends mechanism.
-    """
     issue = service.get_issue(issue_id)
     if issue is None:
         raise HTTPException(status_code=404, detail="Issue not found")
@@ -87,11 +59,6 @@ def close_issue(
     issue_id: int,
     service: IssueService = Depends(get_issue_service),
 ):
-    """
-    Close an issue.
-    
-    The IssueService is injected via FastAPI's Depends mechanism.
-    """
     issue = service.close_issue(issue_id)
     if issue is None:
         raise HTTPException(status_code=404, detail="Issue not found")
@@ -103,11 +70,6 @@ def reopen_issue(
     issue_id: int,
     service: IssueService = Depends(get_issue_service),
 ):
-    """
-    Reopen a closed issue.
-    
-    The IssueService is injected via FastAPI's Depends mechanism.
-    """
     issue = service.reopen_issue(issue_id)
     if issue is None:
         raise HTTPException(status_code=404, detail="Issue not found")
@@ -119,10 +81,5 @@ def delete_issue(
     issue_id: int,
     service: IssueService = Depends(get_issue_service),
 ):
-    """
-    Delete an issue.
-    
-    The IssueService is injected via FastAPI's Depends mechanism.
-    """
     if not service.delete_issue(issue_id):
         raise HTTPException(status_code=404, detail="Issue not found")

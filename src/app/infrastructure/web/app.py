@@ -7,24 +7,6 @@ from app.interfaces.api.issue_api import router as issues_router
 
 
 def create_app(init_db: bool = True) -> FastAPI:
-    """
-    Application factory that creates and configures the FastAPI application.
-    
-    This function:
-    1. Creates the FastAPI app with metadata
-    2. Registers API routers
-    3. Adds health check and static file endpoints
-    4. Optionally initializes the database
-    
-    Dependency injection is handled via the Depends mechanism in route handlers.
-    The actual wiring is defined in app.interfaces.dependencies.
-    
-    Args:
-        init_db: Whether to initialize database tables on startup
-        
-    Returns:
-        Configured FastAPI application
-    """
     app = FastAPI(
         title=API_TITLE,
         version=API_VERSION,
