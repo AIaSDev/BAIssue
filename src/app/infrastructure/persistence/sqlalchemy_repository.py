@@ -1,3 +1,14 @@
+"""
+SQLAlchemy implementation of the issue repository.
+
+This is an adapter in Clean Architecture terminology.
+It implements the repository port defined in the application layer
+using SQLAlchemy ORM for persistence.
+
+Dependency Injection:
+- Receives a SQLAlchemy Session via constructor injection
+- Does NOT create its own session (follows DI principles)
+"""
 from typing import Optional
 
 from sqlalchemy.orm import Session
@@ -8,10 +19,27 @@ from app.application.repositories.issue_repository import IssueRepository
 
 
 class SQLAlchemyIssueRepository(IssueRepository):
+    """
+    SQLAlchemy-based implementation of IssueRepository.
+    
+    This adapter translates between domain entities (Issue)
+    and ORM models (IssueModel).
+    
+    Constructor injection ensures the session is provided externally,
+    making the repository testable and following DI principles.
+    """
+    
     def __init__(self, session: Session):
+        """
+        Initialize repository with a database session.
+        
+        Args:
+            session: SQLAlchemy session (injected dependency)
+        """
         self.session = session
 
     def create(self, issue: Issue) -> Issue:
+        """Create a new issue in the database."""
         model = IssueModel(
             title=issue.title,
             body=issue.body,
@@ -25,14 +53,17 @@ class SQLAlchemyIssueRepository(IssueRepository):
         return self._to_entity(model)
 
     def get_by_id(self, issue_id: int) -> Optional[Issue]:
+        """Retrieve an issue by ID from the database."""
         model = self.session.get(IssueModel, issue_id)
         return self._to_entity(model) if model else None
 
     def list_all(self) -> list[Issue]:
+        """Retrieve all issues from the database."""
         models = self.session.query(IssueModel).order_by(IssueModel.id.asc()).all()
         return [self._to_entity(m) for m in models]
 
     def set_status(self, issue_id: int, status: IssueStatus) -> Optional[Issue]:
+        """Update the status of an issue in the database."""
         model = self.session.get(IssueModel, issue_id)
         if model is None:
             return None
@@ -42,6 +73,7 @@ class SQLAlchemyIssueRepository(IssueRepository):
         return self._to_entity(model)
 
     def delete(self, issue_id: int) -> bool:
+        """Delete an issue from the database."""
         model = self.session.get(IssueModel, issue_id)
         if model is None:
             return False
@@ -51,6 +83,11 @@ class SQLAlchemyIssueRepository(IssueRepository):
 
     @staticmethod
     def _to_entity(model: IssueModel) -> Issue:
+        """
+        Convert ORM model to domain entity.
+        
+        This mapping keeps the domain layer independent of ORM.
+        """
         return Issue(
             id=model.id,
             title=model.title,

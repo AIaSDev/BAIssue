@@ -1,28 +1,35 @@
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy.orm import Session
 
 from app.infrastructure.config import API_TITLE, API_VERSION, API_DESCRIPTION
-from app.infrastructure.database import get_db
-from app.infrastructure.persistence.sqlalchemy_repository import SQLAlchemyIssueRepository
 from app.interfaces.api.issue_api import router as issues_router
-from app.interfaces.dependencies import get_issue_service
-from app.application.issue_use_cases import IssueService
 
 
 def create_app(init_db: bool = True) -> FastAPI:
+    """
+    Application factory that creates and configures the FastAPI application.
+    
+    This function:
+    1. Creates the FastAPI app with metadata
+    2. Registers API routers
+    3. Adds health check and static file endpoints
+    4. Optionally initializes the database
+    
+    Dependency injection is handled via the Depends mechanism in route handlers.
+    The actual wiring is defined in app.interfaces.dependencies.
+    
+    Args:
+        init_db: Whether to initialize database tables on startup
+        
+    Returns:
+        Configured FastAPI application
+    """
     app = FastAPI(
         title=API_TITLE,
         version=API_VERSION,
         description=API_DESCRIPTION,
     )
-
-    def issue_service_provider(db: Session = Depends(get_db)) -> IssueService:
-        repo = SQLAlchemyIssueRepository(db)
-        return IssueService(repo)
-
-    app.dependency_overrides[get_issue_service] = issue_service_provider
 
     app.include_router(issues_router)
 
@@ -41,6 +48,9 @@ def create_app(init_db: bool = True) -> FastAPI:
         _init_db()
 
     return app
+
+
+app = create_app()
 
 
 app = create_app()
