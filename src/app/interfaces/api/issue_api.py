@@ -8,6 +8,20 @@ from app.domain.issue import IssueStatus
 from app.application.issue_use_cases import IssueService
 
 
+class IssueCreate(BaseModel):
+    title: str
+    body: Optional[str] = None
+
+
+class IssueResponse(BaseModel):
+    id: int
+    title: str
+    body: Optional[str]
+    status: IssueStatus
+    created_at: datetime
+    updated_at: datetime
+
+
 def create_router(get_service_dependency) -> APIRouter:
     """
     Create the issues router with a service dependency.
@@ -16,18 +30,6 @@ def create_router(get_service_dependency) -> APIRouter:
         get_service_dependency: A FastAPI dependency that provides IssueService
     """
     router = APIRouter(prefix="/issues", tags=["issues"])
-
-    class IssueCreate(BaseModel):
-        title: str
-        body: Optional[str] = None
-
-    class IssueResponse(BaseModel):
-        id: int
-        title: str
-        body: Optional[str]
-        status: IssueStatus
-        created_at: datetime
-        updated_at: datetime
 
     @router.post("", response_model=IssueResponse, status_code=201)
     def create_issue(
