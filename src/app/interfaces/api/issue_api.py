@@ -23,59 +23,124 @@ class IssueResponse(BaseModel):
 
 
 class IssueAPI:
-    def __init__(self, get_service_dependency):
+    def __init__(self, issue_service_dependency):
         self.router = APIRouter(prefix="/issues", tags=["issues"])
+        self.issue_service_dependency = issue_service_dependency
+        self._register_routes()
 
-        @self.router.post("", response_model=IssueResponse, status_code=201)
-        def create_issue(
+    def _register_routes(self):
+        self.router.add_api_route(
+            "",
+            self._create_issue_endpoint(),
+            methods=["POST"],
+            response_model=IssueResponse,
+            status_code=201
+        )
+        self.router.add_api_route(
+            "",
+            self._list_issues_endpoint(),
+            methods=["GET"],
+            response_model=List[IssueResponse]
+        )
+        self.router.add_api_route(
+            "/{issue_id}",
+            self._get_issue_endpoint(),
+            methods=["GET"],
+            response_model=IssueResponse
+        )
+        self.router.add_api_route(
+            "/{issue_id}/close",
+            self._close_issue_endpoint(),
+            methods=["PATCH"],
+            response_model=IssueResponse
+        )
+        self.router.add_api_route(
+            "/{issue_id}/reopen",
+            self._reopen_issue_endpoint(),
+            methods=["PATCH"],
+            response_model=IssueResponse
+        )
+        self.router.add_api_route(
+            "/{issue_id}",
+            self._delete_issue_endpoint(),
+            methods=["DELETE"],
+            status_code=204
+        )
+
+    def _create_issue_endpoint(self):
+        def endpoint(
             payload: IssueCreate,
-            service: IssueService = Depends(get_service_dependency),
+            service: IssueService = Depends(self.issue_service_dependency),
         ):
-            try:
-                return service.create_issue(payload.title, payload.body)
-            except ValueError as e:
-                raise HTTPException(status_code=400, detail=str(e))
+            return self.create_issue(payload, service)
+        return endpoint
 
-        @self.router.get("", response_model=List[IssueResponse])
-        def list_issues(
-            service: IssueService = Depends(get_service_dependency),
+    def _list_issues_endpoint(self):
+        def endpoint(
+            service: IssueService = Depends(self.issue_service_dependency),
         ):
-            return service.list_issues()
+            return self.list_issues(service)
+        return endpoint
 
-        @self.router.get("/{issue_id}", response_model=IssueResponse)
-        def get_issue(
+    def _get_issue_endpoint(self):
+        def endpoint(
             issue_id: int,
-            service: IssueService = Depends(get_service_dependency),
+            service: IssueService = Depends(self.issue_service_dependency),
         ):
-            issue = service.get_issue(issue_id)
-            if issue is None:
-                raise HTTPException(status_code=404, detail="Issue not found")
-            return issue
+            return self.get_issue(issue_id, service)
+        return endpoint
 
-        @self.router.patch("/{issue_id}/close", response_model=IssueResponse)
-        def close_issue(
+    def _close_issue_endpoint(self):
+        def endpoint(
             issue_id: int,
-            service: IssueService = Depends(get_service_dependency),
+            service: IssueService = Depends(self.issue_service_dependency),
         ):
-            issue = service.close_issue(issue_id)
-            if issue is None:
-                raise HTTPException(status_code=404, detail="Issue not found")
-            return issue
+            return self.close_issue(issue_id, service)
+        return endpoint
 
-        @self.router.patch("/{issue_id}/reopen", response_model=IssueResponse)
-        def reopen_issue(
+    def _reopen_issue_endpoint(self):
+        def endpoint(
             issue_id: int,
-            service: IssueService = Depends(get_service_dependency),
+            service: IssueService = Depends(self.issue_service_dependency),
         ):
-            issue = service.reopen_issue(issue_id)
-            if issue is None:
-                raise HTTPException(status_code=404, detail="Issue not found")
-            return issue
+            return self.reopen_issue(issue_id, service)
+        return endpoint
 
-        @self.router.delete("/{issue_id}", status_code=204)
-        def delete_issue(
+    def _delete_issue_endpoint(self):
+        def endpoint(
             issue_id: int,
-            service: IssueService = Depends(get_service_dependency),
+            service: IssueService = Depends(self.issue_service_dependency),
         ):
-            if not service.delete_issue(issue_id):
-                raise HTTPException(status_code=404, detail="Issue not found")
+            return self.delete_issue(issue_id, service)
+        return endpoint
+
+    def create_issue(self, payload: IssueCreate, service: IssueService):
+        try:
+            return service.create_issue(payload.title, payload.body)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+
+    def list_issues(self, service: IssueService):
+        return service.list_issues()
+
+    def get_issue(self, issue_id: int, service: IssueService):
+        issue = service.get_issue(issue_id)
+        if issue is None:
+            raise HTTPException(status_code=404, detail="Issue not found")
+        return issue
+
+    def close_issue(self, issue_id: int, service: IssueService):
+        issue = service.close_issue(issue_id)
+        if issue is None:
+            raise HTTPException(status_code=404, detail="Issue not found")
+        return issue
+
+    def reopen_issue(self, issue_id: int, service: IssueService):
+        issue = service.reopen_issue(issue_id)
+        if issue is None:
+            raise HTTPException(status_code=404, detail="Issue not found")
+        return issue
+
+    def delete_issue(self, issue_id: int, service: IssueService):
+        if not service.delete_issue(issue_id):
+            raise HTTPException(status_code=404, detail="Issue not found")
