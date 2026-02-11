@@ -105,7 +105,7 @@ This diagram shows how requests flow through the layers in practice, from the br
 ```mermaid
 graph LR
     Browser["Browser / UI"]
-    Database[("Database<br/>(SQLite / PostgreSQL)")]
+    Database[("Database<br/>(SQLite/PostgreSQL)")]
     
     subgraph Infrastructure
         web["infrastructure.web.app<br/>(FastAPI app)"]
