@@ -7,7 +7,7 @@ from app.infrastructure.config import API_TITLE, API_VERSION, API_DESCRIPTION
 from app.infrastructure.database import get_db
 from app.infrastructure.persistence.sqlalchemy_repository import SQLAlchemyIssueRepository
 from app.application.issue_use_cases import IssueService
-from app.interfaces.api.issue_api import IssueAPI
+from app.interfaces.api import issue_api
 
 
 def create_app(init_db: bool = True) -> FastAPI:
@@ -21,8 +21,8 @@ def create_app(init_db: bool = True) -> FastAPI:
         repo = SQLAlchemyIssueRepository(db)
         return IssueService(repo)
 
-    issues_api = IssueAPI(get_issue_service)
-    app.include_router(issues_api.router)
+    app.dependency_overrides[issue_api.get_service] = get_issue_service
+    app.include_router(issue_api.router)
 
     @app.get("/health")
     def health_check():
