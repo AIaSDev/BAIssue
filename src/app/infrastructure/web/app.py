@@ -6,9 +6,8 @@ from sqlalchemy.orm import Session
 from app.infrastructure.config import API_TITLE, API_VERSION, API_DESCRIPTION
 from app.infrastructure.database import get_db
 from app.infrastructure.persistence.sqlalchemy_repository import SQLAlchemyIssueRepository
-from app.interfaces.api.issue_api import router as issues_router
-from app.interfaces.dependencies import get_issue_service
 from app.application.issue_use_cases import IssueService
+from app.interfaces.api import issue_api
 
 
 def create_app(init_db: bool = True) -> FastAPI:
@@ -18,13 +17,12 @@ def create_app(init_db: bool = True) -> FastAPI:
         description=API_DESCRIPTION,
     )
 
-    def issue_service_provider(db: Session = Depends(get_db)) -> IssueService:
+    def get_issue_service(db: Session = Depends(get_db)) -> IssueService:
         repo = SQLAlchemyIssueRepository(db)
         return IssueService(repo)
 
-    app.dependency_overrides[get_issue_service] = issue_service_provider
-
-    app.include_router(issues_router)
+    app.dependency_overrides[issue_api.get_service] = get_issue_service
+    app.include_router(issue_api.router)
 
     @app.get("/health")
     def health_check():

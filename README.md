@@ -25,9 +25,8 @@ src/app/
 │   └── repositories/               # Repository interfaces
 │       └── issue_repository.py
 ├── interfaces/
-│   ├── api/                        # HTTP layer (FastAPI router)
-│   │   └── issue_api.py
-│   └── dependencies.py             # Interface-level DI (ports → use cases)
+│   └── api/                        # HTTP layer (FastAPI router)
+│       └── issue_api.py            # API routes with service creation
 ├── infrastructure/
 │   ├── config.py                   # Environment-based configuration (.env optional)
 │   ├── database.py                 # SQLAlchemy engine, session, Base
