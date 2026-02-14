@@ -27,14 +27,14 @@ Do not store project status here. Status lives in TASKS.md.
 - Coverage / quality targets (optional but recommended)
 
 ## Phases
-1 SPECIFY  : Update SPECS.md (goals/scope/NFRs/contracts). Then set TASKS.md CURRENT PHASE = 2.
-2 DESIGN   : Validate architecture + slice tasks in TASKS.md. Then set CURRENT PHASE = 3.
-3 DEVELOP  : Implement strictly test-first per task (TDD). Keep Clean Architecture boundaries. Then set CURRENT PHASE = 4.
-                ↺ If spec or architecture mismatch → return to 1 or 2
-4 VALIDATE : Run full test suite locally and in CI. Fix failures. Then set CURRENT PHASE = 5.
-                ↺ If failing → return to 3
-5 DEPLOY   : Container build + E2E against container artifact, then release/deploy.
-                ↺ If deployment issues → return to 3 or 4
+1. SPECIFY  : Update SPECS.md (goals/scope/NFRs/contracts). Then set TASKS.md CURRENT PHASE = 2.
+2. DESIGN   : Validate architecture + slice tasks in TASKS.md. Then set CURRENT PHASE = 3.
+3. DEVELOP  : Implement strictly test-first per task (TDD). Keep Clean Architecture boundaries. Then set CURRENT PHASE = 4.\
+↺ If spec or architecture mismatch → return to 1. or 2.
+4. VALIDATE : Run full test suite locally and in CI. Fix failures. Then set CURRENT PHASE = 5.\
+↺ If failing → return to 3.
+5. DEPLOY   : Container build + E2E against container artifact, then release/deploy.\
+↺ If deployment issues → return to 3. or 4.
 
 ## Rules (guardrails)
 - TDD FIRST: write tests before implementation (tests/unit/ → src/)
