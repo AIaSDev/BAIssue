@@ -1,17 +1,27 @@
 # AGENTS.md — AI-SDLC Router
 
-Do not modify this file. Repo status lives in docs/TASKS.md.
+Do not modify this file. Repo status lives in `docs/TASKS.md`.
 
 ## Current Phase
-See docs/TASKS.md
+See `docs/TASKS.md`.
 
-Valid phases: 1 SPECIFY, 2 DESIGN, 3 DEVELOP, 4 VALIDATE, 5 DEPLOY.
+Valid phases:
+1. SPECIFY
+2. DESIGN
+3. DEVELOP
+4. VALIDATE
+5. DEPLOY
 
 ## Context Load Order
-1. docs/TASKS.md
-2. docs/PROJECT.md
-3. docs/ai-sdlc/PHASE-[X-NAME].md (current phase indicated in docs/TASKS.md)
-4. docs/specs/UC-[XXX].md (current use case indicated in docs/TASKS.md)
+1. `docs/TASKS.md`
+2. `docs/PROJECT.md`
+3. `docs/ai-sdlc/PHASE-[X-NAME].md` (current phase from `docs/TASKS.md`)
+4. `docs/specs/UC-[XXX].md` (current use case from `docs/TASKS.md`)
+
+## Skills
+For Phase 3 (DEVELOP), use:
+
+- `.github/skills/tdd-loop/SKILL.md`
 
 ## Commands
 - Unit + Integration (CI parity): `pytest -q`
@@ -22,7 +32,7 @@ Valid phases: 1 SPECIFY, 2 DESIGN, 3 DEVELOP, 4 VALIDATE, 5 DEPLOY.
 ## Guardrails
 - TDD first (tests before code).
 - Testing Pyramid guideline: Unit ~70%, Integration ~20%, E2E ~10%.
-- Clean Architecture dependency direction: domain ← application ← interfaces ← infrastructure.
+- Clean Architecture dependency direction: `domain ← application ← interfaces ← infrastructure`.
 - No merge without green CI.
 - Prefer small vertical slices (one UC end-to-end).
 
