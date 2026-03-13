@@ -1,26 +1,21 @@
 # PROJECT.md
 
 ## Purpose
-Short description of this repository (1–2 sentences).
+Short description of the project.
 
-## Architecture (Clean Architecture)
-Dependency direction: **domain ← application ← interfaces ← infrastructure**
-
-Suggested layout:
-- `src/domain/` — entities + pure domain rules (no framework imports)
-- `src/application/` — use cases + ports
-- `src/interfaces/` — API, controllers, presenters
-- `src/infrastructure/` — DB, external services, framework adapters
-
-## Tests (Testing Pyramid)
-- `tests/unit/` — domain + application (fast, most tests)
-- `tests/integration/` — interface ↔ infra boundaries (DB/API contracts)
-- `tests/e2e/` — full system flows against a built artifact
+## Architecture
+Clean Architecture.
 
 ## Run
-- Install: (add project-specific steps)
-- Test: `pytest -q`
-- Start: (add command)
+
+Install: (project specific)
+
+Test:
+pytest -q
+
+Start:
+(add command)
 
 ## Dependencies
-List the primary frameworks/libraries and where they are declared (e.g., requirements.txt / pyproject.toml).
+
+List frameworks and libraries (requirements.txt / pyproject.toml).

@@ -1,14 +1,14 @@
 # UC-XXX — <Use Case Name>
 
 ## Business Intent
-(1–2 sentences)
+What value does this use case deliver?
 
 ## Actors
 Primary:
-Secondary (optional):
+Secondary:
 
 ## Preconditions
-(State before execution)
+System state before execution.
 
 ## Main Flow
 1.
@@ -16,39 +16,17 @@ Secondary (optional):
 3.
 
 ## Alternative / Error Flows
-- Invalid input:
-- Not found:
-- Permission denied:
+- Invalid input
+- Not found
+- Permission denied
 
-## Acceptance Criteria (Executable)
-- [ ] Given … When … Then …
-- [ ] Correct status codes / errors
-- [ ] Valid state transitions
-
-## Non-Functional Constraints (Minimal)
-- Performance:
-- Security:
+## Acceptance Criteria
+- Given / When / Then
+- Correct status codes
+- Valid state transitions
 
 ## Test Mapping
-**Unit**
-- Domain rule(s):
-- Use case logic:
 
-**Integration**
-- Interface boundary:
-- Persistence / external:
-
-**E2E**
-- End-to-end flow:
-
-## Architecture Impact
-Affected layers:
-- domain:
-- application:
-- interfaces:
-- infrastructure:
-
-## Definition of Done
-- Unit + integration green
-- E2E validated (if required)
-- CI green
+- Unit:
+- Integration:
+- E2E:

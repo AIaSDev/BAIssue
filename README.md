@@ -206,6 +206,86 @@ Workflow: **`.github/workflows/cd-render.yml`**
 - Render deploys the **latest GHCR image**
 - Triggered via a **Render Deploy Hook** URL stored as a GitHub secret
 
+## AI‑SDLC Workflow
+
+This repository follows the **AI‑SDLC** controlled by:
+
+- `AGENTS.md` — workflow router
+- `docs/TASKS.md` — lifecycle phase
+- `skills/ai-sdlc-*` — phase execution
+
+Agents read the current phase from `docs/TASKS.md` and run the matching skill.
+
+### Phases
+
+| Phase | Skill |
+|------|------|
+| 0 BOOTSTRAP | `skills/ai-sdlc-0-bootstrap` |
+| 1 SPECIFY | `skills/ai-sdlc-1-specify` |
+| 2 DESIGN | `skills/ai-sdlc-2-design` |
+| 3 DEVELOP | `skills/ai-sdlc-3-develop` |
+| 4 VALIDATE | `skills/ai-sdlc-4-validate` |
+| 5 DEPLOY | `skills/ai-sdlc-5-deploy` |
+
+### Minimal prompts
+
+Bootstrap project
+
+```
+Follow AGENTS.md.
+Execute phase 0 BOOTSTRAP.
+```
+
+Specify use case
+
+```
+Follow AGENTS.md.
+Execute phase 1 SPECIFY.
+```
+
+Design architecture
+
+```
+Follow AGENTS.md.
+Execute phase 2 DESIGN.
+```
+
+Develop via TDD
+
+```
+Follow AGENTS.md.
+Execute phase 3 DEVELOP.
+```
+
+Validate release
+
+```
+Follow AGENTS.md.
+Execute phase 4 VALIDATE.
+```
+
+Deploy
+
+```
+Follow AGENTS.md.
+Execute phase 5 DEPLOY.
+```
+
+### Principle
+
+Development follows:
+
+```
+Specification → Tests → Code
+```
+
+Artifacts:
+
+- Use cases: `docs/specs/UC-XXX.md`
+- Architecture: `docs/PROJECT.md`
+- Lifecycle state: `docs/TASKS.md`
+- Execution logic: `skills/ai-sdlc-*`
+
 ## License
 
 This project is intended for **educational use**.
