@@ -43,6 +43,7 @@ Run container
 
 ## Guardrails
 
+- Use English for all generated content.
 - TDD first (tests before code)
 - Testing pyramid guideline: Unit ~70%, Integration ~20%, E2E ~10%
 - Clean Architecture direction: domain ← application ← interfaces ← infrastructure

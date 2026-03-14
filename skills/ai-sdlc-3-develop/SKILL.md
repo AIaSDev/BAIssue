@@ -6,46 +6,61 @@ description: Implement the current use case via strict Test-Driven Development.
 # PHASE 3 — DEVELOP
 
 ## Goal
-Implement the current use case using strict TDD.
 
-Source of truth:
-docs/specs/UC-[XXX].md
+Implement the current use case using **strict Test-Driven Development (TDD)**.
+
+---
+
+## Source of Truth
+
+Current UC:
+
+docs/TASKS.md
+
+Use case specification:
+
+docs/specs/UC-[NNN]-[NAME].md
 
 Architecture reference:
+
 docs/PROJECT.md
 
 ---
 
-## Test Derivation (from UC)
+## Test Derivation
 
 Generate tests directly from the UC specification.
+
+Mapping:
 
 Acceptance Criteria → Integration tests  
 Domain rules → Unit tests  
 Use case logic → Unit tests
 
-Locations:
+Test locations:
 
 tests/integration/  
 tests/unit/
 
-Each acceptance criterion should be covered by at least one integration test.
+Each acceptance criterion must be covered by **at least one integration test**.
+
+If related tests already exist → **extend the existing test file instead of creating a new one**.
 
 ---
 
-## Order
+## Execution Order
 
-1. Integration tests (boundary behaviour)  
+1. Integration tests (system boundary)  
 2. Unit tests (domain + application)  
-3. Code (Red → Green → Refactor)  
-4. Review
+3. Implementation  
+4. Refactor
 
 ---
 
 ## TDD Loop
 
 RED  
-Write failing unit tests.
+Write failing tests.
 
 GREEN  
 Implement minimal code to satisfy tests.
@@ -57,15 +72,15 @@ Improve structure without changing behaviour.
 
 ## Commands
 
-Unit tests
+Run unit tests
 
 pytest -q tests/unit
 
-Integration tests
+Run integration tests
 
 pytest -q tests/integration
 
-Full pyramid
+Run full test pyramid
 
 pytest -q tests/unit tests/integration tests/e2e
 
@@ -73,18 +88,26 @@ pytest -q tests/unit tests/integration tests/e2e
 
 ## Rules
 
-- Do not implement code before tests exist.
+- Never implement code before tests exist.
 - Tests must be deterministic and fast.
+- Prefer extending existing test files instead of creating duplicates.
 - Respect Clean Architecture boundaries.
 - Domain must not import frameworks.
-- If acceptance criteria are unclear → ask questions.
+- Infrastructure must depend inward.
+- If acceptance criteria are unclear → ask the user.
 
 ---
 
 ## Output
 
-- Integration tests created/updated
+- Integration tests created or updated
 - Unit tests green locally
 - Minimal implementation complete
 
-Update docs/TASKS.md → CURRENT PHASE = 4
+Update:
+
+docs/TASKS.md
+
+Set:
+
+CURRENT PHASE → 4

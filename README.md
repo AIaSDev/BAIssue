@@ -227,48 +227,92 @@ Agents read the current phase from `docs/TASKS.md` and run the matching skill.
 | 4 VALIDATE | `skills/ai-sdlc-4-validate` |
 | 5 DEPLOY | `skills/ai-sdlc-5-deploy` |
 
-### Minimal prompts
+### Agent SKILL Setup
+
+To make the AI‑SDLC skills discoverable by different agents, run:
+
+```bash
+./scripts/setup-skills.sh
+```
+
+This script creates symlinks to the `skills/` directory for common agents:
+
+- `.agents/skills` — GitHub Copilot, OpenAI Codex, Cline, and other agent tools
+- `.claude/skills` — Claude Code
+
+The canonical location of all skills in this repository remains:
+
+```
+skills/
+```
+
+### Minimal example prompts
 
 Bootstrap project
 
 ```
 Follow AGENTS.md.
+
 Execute phase 0 BOOTSTRAP.
+
+Use skill: ai-sdlc-0-bootstrap
 ```
 
 Specify use case
 
 ```
 Follow AGENTS.md.
+
 Execute phase 1 SPECIFY.
+
+User story:
+Users can add comments to an issue via the REST API and web app. 
+A comment contains text, author name, and timestamp. 
+Users can list comments for an issue.
+
+Use skill: ai-sdlc-1-specify
 ```
 
 Design architecture
 
 ```
 Follow AGENTS.md.
-Execute phase 2 DESIGN.
+
+Execute phase 2 DESIGN for the current use case.
+
+Use skill: ai-sdlc-2-design
 ```
 
 Develop via TDD
 
 ```
 Follow AGENTS.md.
-Execute phase 3 DEVELOP.
+
+Execute phase 3 DEVELOP for the current use case.
+
+Use skill: ai-sdlc-3-develop
 ```
 
 Validate release
 
 ```
 Follow AGENTS.md.
-Execute phase 4 VALIDATE.
+
+Execute phase 4 VALIDATE for the current use case.
+
+Use skill: ai-sdlc-4-validate
 ```
 
 Deploy
 
 ```
 Follow AGENTS.md.
-Execute phase 5 DEPLOY.
+
+Execute phase 5 DEPLOY for the current use case.
+
+Use skill: ai-sdlc-5-deploy
+
+CD-Workflow: .github/workflows/cd-render.yml
 ```
 
 ### Principle

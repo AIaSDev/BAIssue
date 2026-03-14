@@ -6,38 +6,63 @@ description: Initialize repository structure and architecture baseline.
 # PHASE 0 — BOOTSTRAP
 
 ## Goal
-Initialize a new project using the AI‑SDLC template.
+Initialize a repository for the **AI-SDLC workflow**.
+
+---
+
+## Required Input
+
+Confirm with the user:
+
+- language
+- framework
+- runtime
+
+---
 
 ## Steps
 
-1. Confirm project type
-    - language
-    - framework
-    - runtime
+1. Create project structure (Clean Architecture)
 
-2. Create project structure
-    - src/domain/
-    - src/application/
-    - src/interfaces/
-    - src/infrastructure/
+src/domain/  
+src/application/  
+src/interfaces/  
+src/infrastructure/
 
-    - tests/unit/
-    - tests/integration/
-    - tests/e2e/
+tests/unit/  
+tests/integration/  
+tests/e2e/
 
-3. Initialize dependency manager
-    - (requirements.txt / pyproject.toml / package.json)
+2. Initialize dependency manager
 
-4. Update docs/PROJECT.md
-    - architecture
-    - run commands
-    - dependencies
+Examples:
 
-5. Create first use case from template
-    - docs/specs/UC-001.md
+- requirements.txt
+- pyproject.toml
+- package.json
+
+3. Initialize documentation
+
+Update:
+
+docs/PROJECT.md
+
+Add:
+
+- architecture overview
+- run commands
+- dependencies
+
+---
 
 ## Output
 
-Project initialized.
+Repository initialized.
 
-Update docs/TASKS.md → CURRENT PHASE = 1.
+Update:
+
+docs/TASKS.md
+
+Set:
+
+CURRENT PHASE → 1
