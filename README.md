@@ -116,7 +116,7 @@ By default, SQLite is used (`app.db`):
 
 ```bash
 export PYTHONPATH=$PWD/src
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 Open:
