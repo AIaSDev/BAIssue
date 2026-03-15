@@ -1,128 +1,106 @@
 ---
 name: ai-sdlc-4-validate
-description: Verify the system and prepare a release-ready artifact.
+description: Verify repository readiness for release.
 ---
 
 # PHASE 4 — VALIDATE
 
 ## Goal
 
-Verify the system and produce a **release-ready container artifact**.
+Verify that the repository is **release-ready**.
+
+Focus on **checking existing artifacts**.
 
 ---
 
 ## Source of Truth
 
-Current use case:
-
-docs/TASKS.md
-
-Architecture:
-
-docs/PROJECT.md
+docs/TASKS.md  
+docs/PROJECT.md  
 
 ---
 
 ## Steps
 
-### 1. End-to-End Tests
+### 1. Run Local Tests
 
-Create or update tests in:
+Run
+
+`pytest -q tests/unit tests/integration`
+
+Verify:
+
+- unit tests pass
+- integration tests pass
+
+---
+
+### 2. Verify E2E Tests
+
+Check:
 
 tests/e2e/
 
-E2E tests must validate the **complete system behaviour** using real HTTP calls.
+Extend existing tests if needed.
+
+Create tests only if none exist.
 
 ---
 
-### 2. Docker Image
+### 3. Verify Dockerfile
 
-Check if a Dockerfile exists.
-
-If present:
-
-- verify correctness
-- update if necessary
-
-If missing:
-
-Create:
+Check:
 
 Dockerfile
 
-The container must start the application and expose the API.
+Verify the container builds and starts the application.
+
+Create only if missing.
 
 ---
 
-### 3. CI Workflow
+### 4. Verify CI
 
-Check if CI exists:
+Check:
 
 .github/workflows/ci.yml
 
-If present:
+CI should run:
 
-- verify it runs
-  - unit tests
-  - integration tests
+- unit tests  
+- integration tests
 
-If missing:
-
-Create CI workflow.
+Create only if missing.
 
 ---
 
-### 4. Release Workflow
+### 5. Verify Release Workflow
 
-Check if release workflow exists:
+Check:
 
 .github/workflows/release.yml
 
-If present:
+Verify it:
 
-- verify container build
-- verify E2E tests run against container
-- verify artifact publishing
+- builds the container
+- runs E2E tests
+- publishes the artifact
 
-If missing:
-
-Create release workflow.
-
----
-
-## Quality Gates
-
-Recommended:
-
-Coverage ≥ 80%
-
-Testing Pyramid guideline:
-
-- Unit ≈ 70%
-- Integration ≈ 20%
-- E2E ≈ 10%
-
-All workflows must pass.
+Create only if missing.
 
 ---
 
 ## Rules
 
-- Do not duplicate existing workflows.
-- Prefer updating existing files.
-- E2E tests must run against the **built container**.
-- CI must pass before continuing.
+- Prefer **verifying and extending existing artifacts**.
+- Create files only if they do not exist.
+- Avoid duplicate workflows.
 
 ---
 
 ## Output
 
-- E2E tests created or updated
-- Dockerfile verified or created
-- CI workflow verified or created
-- Release workflow verified or created
-
-All checks green.
+Repository verified.
 
 Update:
 
@@ -130,4 +108,4 @@ docs/TASKS.md
 
 Set:
 
-CURRENT PHASE → 5
+PHASE → 4

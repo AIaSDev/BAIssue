@@ -1,72 +1,52 @@
 ---
 name: ai-sdlc-3-develop
-description: Implement the current use case via strict Test-Driven Development.
+description: Implement the current use case using strict TDD.
 ---
 
 # PHASE 3 — DEVELOP
 
 ## Goal
 
-Implement the current use case using **strict Test-Driven Development (TDD)**.
+Implement the current use case using **Test-Driven Development**.
 
 ---
 
 ## Source of Truth
 
-Current UC:
-
-docs/TASKS.md
-
-Use case specification:
-
-docs/specs/UC-[NNN]-[NAME].md
-
-Architecture reference:
-
+docs/TASKS.md  
+docs/specs/UC-[NNN]-[NAME].md  
 docs/PROJECT.md
 
 ---
 
 ## Test Derivation
 
-Generate tests directly from the UC specification.
+Derive tests from the UC.
 
-Mapping:
-
-Acceptance Criteria → Integration tests  
+Acceptance → Integration tests  
 Domain rules → Unit tests  
-Use case logic → Unit tests
+Use case logic → Unit tests  
 
-Test locations:
+Locations
 
-tests/integration/  
-tests/unit/
+tests/integration  
+tests/unit  
 
-Each acceptance criterion must be covered by **at least one integration test**.
+Prefer **extending existing test files**.
 
-If related tests already exist → **extend the existing test file instead of creating a new one**.
-
----
-
-## Execution Order
-
-1. Integration tests (system boundary)  
-2. Unit tests (domain + application)  
-3. Implementation  
-4. Refactor
+Create new files only if necessary.
 
 ---
 
-## TDD Loop
+## Order
 
-RED  
-Write failing tests.
+1. Integration tests  
+2. Unit tests  
+3. Implementation
 
-GREEN  
-Implement minimal code to satisfy tests.
+Follow TDD:
 
-REFACTOR  
-Improve structure without changing behaviour.
+RED → GREEN → REFACTOR
 
 ---
 
@@ -74,35 +54,33 @@ Improve structure without changing behaviour.
 
 Run unit tests
 
-pytest -q tests/unit
+`pytest -q tests/unit`
 
 Run integration tests
 
-pytest -q tests/integration
-
-Run full test pyramid
-
-pytest -q tests/unit tests/integration tests/e2e
+`pytest -q tests/integration`
 
 ---
 
 ## Rules
 
-- Never implement code before tests exist.
-- Tests must be deterministic and fast.
-- Prefer extending existing test files instead of creating duplicates.
-- Respect Clean Architecture boundaries.
-- Domain must not import frameworks.
-- Infrastructure must depend inward.
-- If acceptance criteria are unclear → ask the user.
+- Tests before code.
+- Keep code minimal.
+- Avoid unnecessary comments.
+- Prefer updating existing tests and code.
+- Respect Clean Architecture  
+
+  domain ← application ← interfaces ← infrastructure
+
+- Ask the user if requirements are unclear.
 
 ---
 
 ## Output
 
-- Integration tests created or updated
-- Unit tests green locally
-- Minimal implementation complete
+Implementation complete.
+
+Unit and integration tests pass.
 
 Update:
 
@@ -110,4 +88,4 @@ docs/TASKS.md
 
 Set:
 
-CURRENT PHASE → 4
+PHASE → 3

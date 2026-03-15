@@ -1,80 +1,79 @@
 ---
 name: ai-sdlc-2-design
-description: Define architecture boundaries and slice the use case into implementation tasks.
+description: Determine minimal architecture components for the current use case.
 ---
 
 # PHASE 2 — DESIGN
 
 ## Goal
 
-Translate the use case specification into a concrete architecture and task plan.
+Identify the **minimal architecture components** required for the current use case.
+
+Do not generate implementation details.
 
 ---
 
-## Required Input
+## Input
 
-Current use case:
-
-docs/specs/UC-[NNN]-[NAME].md
-
-If the UC does not exist → stop and ask the user.
-
----
-
-## Actions
-
-1. Read:
+Current use case
 
 docs/specs/UC-[NNN]-[NAME].md
 
-2. Validate architecture rules in:
+Architecture reference
 
 docs/PROJECT.md
 
-Clean Architecture direction:
-
-domain ← application ← interfaces ← infrastructure
-
-3. Determine required components:
-
-- domain entities
-- application use cases
-- repository interfaces (ports)
-- infrastructure adapters
-- API endpoints
-
-4. Slice the implementation into **vertical tasks** in this order:
-
-1. Integration tests  
-2. Unit tests  
-3. Implementation
+If the UC does not exist → ask the user.
 
 ---
 
-## Output
+## Steps
 
-Update:
+1. Read the use case.
 
-docs/TASKS.md
+2. Determine required components:
 
-Define tasks for the current UC.
+domain  
+application  
+interfaces  
+infrastructure  
 
-Example:
+Examples:
 
-1. Integration tests [TODO]  
-2. Unit tests [TODO]  
-3. Implementation [TODO]  
-4. Review fixes [TODO]
+- domain entity
+- use case service
+- repository interface
+- persistence adapter
+- API endpoint
 
-Then set:
+3. Ensure the architecture in `docs/PROJECT.md` is sufficient.
 
-CURRENT PHASE → 3
+Update it **only if necessary**.
+
+Prefer **extending existing artifacts** instead of creating new ones.
 
 ---
 
 ## Rules
 
-- Respect Clean Architecture dependency direction.
+- Respect Clean Architecture  
+
+  domain ← application ← interfaces ← infrastructure
+
 - Do not implement code.
-- Do not generate tests yet.
-- If architecture decisions are unclear → ask the user.
+- Do not generate tests.
+- Keep architecture descriptions minimal.
+
+---
+
+## Output
+
+Architecture verified or minimally updated.
+
+Update:
+
+docs/TASKS.md
+
+Set:
+
+PHASE → 2

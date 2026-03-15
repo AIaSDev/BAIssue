@@ -28,11 +28,7 @@ def create_app(init_db: bool = True) -> FastAPI:
     def health_check():
         return {"status": "healthy"}
 
-    app.mount("/ui", StaticFiles(directory="src/app/infrastructure/web/static", html=True), name="ui")
-
-    @app.get("/", include_in_schema=False)
-    def root():
-        return RedirectResponse(url="/ui", status_code=302)
+    app.mount("/", StaticFiles(directory="src/app/infrastructure/web/static", html=True), name="ui")
 
     if init_db:
         from app.infrastructure.database import init_db as _init_db

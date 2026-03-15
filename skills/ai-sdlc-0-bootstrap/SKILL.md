@@ -1,16 +1,17 @@
 ---
 name: ai-sdlc-0-bootstrap
-description: Initialize repository structure and architecture baseline.
+description: Initialize repository structure for AI-SDLC.
 ---
 
 # PHASE 0 — BOOTSTRAP
 
 ## Goal
-Initialize a repository for the **AI-SDLC workflow**.
+
+Prepare the repository for the AI-SDLC workflow.
 
 ---
 
-## Required Input
+## Input
 
 Confirm with the user:
 
@@ -22,42 +23,52 @@ Confirm with the user:
 
 ## Steps
 
-1. Create project structure (Clean Architecture)
+1. Ensure project structure (Clean Architecture)
 
-src/domain/  
-src/application/  
-src/interfaces/  
-src/infrastructure/
+src/domain  
+src/application  
+src/interfaces  
+src/infrastructure  
 
-tests/unit/  
-tests/integration/  
-tests/e2e/
+tests/unit  
+tests/integration  
+tests/e2e  
 
-2. Initialize dependency manager
+Create missing directories only.
 
-Examples:
+---
 
-- requirements.txt
-- pyproject.toml
-- package.json
+2. Ensure dependency manager
 
-3. Initialize documentation
+Check if one exists:
 
-Update:
+requirements.txt  
+pyproject.toml  
+package.json  
+
+Create only if missing.
+
+---
+
+3. Ensure documentation
+
+Update if present:
 
 docs/PROJECT.md
 
-Add:
+Add minimal:
 
-- architecture overview
-- run commands
+- architecture
+- run command
 - dependencies
+
+Create file only if missing.
 
 ---
 
 ## Output
 
-Repository initialized.
+Repository ready for AI-SDLC.
 
 Update:
 
@@ -65,4 +76,4 @@ docs/TASKS.md
 
 Set:
 
-CURRENT PHASE → 1
+PHASE → 1

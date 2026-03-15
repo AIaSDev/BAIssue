@@ -1,80 +1,80 @@
 ---
 name: ai-sdlc-1-specify
-description: Convert a user story into a structured use case specification.
+description: Create or update a minimal use case specification.
 ---
 
 # PHASE 1 — SPECIFY
 
 ## Goal
-Transform a user story into a **structured use case specification**.
 
-## Required Input
-User story or feature description.
-
-If missing → ask the user before proceeding.
+Create or update a **minimal use case specification**.
 
 ---
 
-## Use Case Naming
+## Input
 
-Create files using:
+User story or feature description.
+
+If missing → ask the user.
+
+---
+
+## Use Case File
 
 docs/specs/UC-[NNN]-[NAME].md
 
 Rules:
 
-- NNN = next sequential number (001, 002, …)
+- NNN = sequential number (001, 002, …)
 - NAME = short uppercase identifier
-- Words separated with `-`
+- words separated with `-`
 
-Determine the next number by scanning existing files in:
+Determine the next number by scanning:
 
 docs/specs/
 
+If a UC for the feature already exists → **update it instead of creating a new one**.
+
 ---
 
-## Actions
+## Steps
 
-1. Open template:
+1. Open template
 
 docs/specs/UC-TEMPLATE.md
 
-2. Convert the user story into:
+2. Create or update the UC with minimal content:
 
-- Business intent
-- Actors
-- Preconditions
-- Main flow
-- Alternative flows
-- Acceptance criteria
-- Minimal NFRs
+Intent  
+Actors  
+Preconditions  
+Flow  
+Errors  
+Acceptance  
+Tests
 
-3. Map acceptance criteria to test intent:
-
-- Unit
-- Integration
-- E2E
-
----
-
-## Output
-
-Create:
-
-docs/specs/UC-[NNN]-[NAME].md
-
-Then update:
-
-docs/TASKS.md
-
-Set:
-
-CURRENT PHASE → 2
+Do not add unnecessary text.
 
 ---
 
 ## Rules
 
+- Prefer **updating existing UC files**.
+- Create a new UC only if none exists.
 - Do not invent functionality.
 - Ask the user if requirements are unclear.
-- Do **not** generate code or tests.
+- Do **not generate code or tests**.
+
+---
+
+## Output
+
+UC specification created or updated.
+
+Update:
+
+docs/TASKS.md
+
+Set:
+
+PHASE → 1

@@ -1,21 +1,41 @@
 # PROJECT.md
 
 ## Purpose
-Short description of the project.
+
+(Short description of the project.)
+
+---
 
 ## Architecture
-Clean Architecture.
 
-## Run
+(project specific)
 
-Install: (project specific)
+---
 
-Test:
+## Structure
+
+(project specific)
+
+---
+
+## Commands
+
+Install
+
+(project specific)
+
+Test
+
 pytest -q
 
-Start:
-(add command)
+Start
+
+(project specific)
+
+---
 
 ## Dependencies
 
-List frameworks and libraries (requirements.txt / pyproject.toml).
+Declared in:
+
+(project specific)

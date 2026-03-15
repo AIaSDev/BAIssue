@@ -1,40 +1,37 @@
-# UC-XXX — <USE CASE NAME>
+# UC-[NNN]-[NAME]
 
-## Business Intent
-Value delivered by this use case.
+## Intent
+Business value of the use case.
 
 ## Actors
-Primary:
-Secondary:
+
+Primary  
+Secondary
 
 ## Preconditions
-System state before execution.
 
-## Main Flow
+Required system state.
+
+## Flow
 
 1.
 2.
 3.
 
-## Alternative / Error Flows
+## Errors
 
-- Invalid input
-- Not found
-- Permission denied
+- invalid input
+- not found
+- permission denied
 
-## Acceptance Criteria
+## Acceptance
 
-- Given / When / Then
-- Correct status codes
-- Valid state transitions
+Given  
+When  
+Then  
 
-## Test Mapping
+## Tests
 
-Unit:
-- domain rules
-
-Integration:
-- API / persistence
-
-E2E:
-- full user flow
+Unit  
+Integration  
+E2E
