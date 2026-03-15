@@ -100,6 +100,8 @@ Create only if missing.
 
 ## Output
 
+Unit and integration tests pass.
+
 Repository verified.
 
 Update:

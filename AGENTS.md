@@ -52,10 +52,6 @@ Run tests
 
 `pytest -q`
 
-Full test pyramid
-
-`- pytest -q tests/unit tests/integration tests/e2e`
-
 Build container
 
 `docker build -t app:local .`

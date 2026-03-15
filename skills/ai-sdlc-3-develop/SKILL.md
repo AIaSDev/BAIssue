@@ -56,10 +56,6 @@ Run unit tests
 
 `pytest -q tests/unit`
 
-Run integration tests
-
-`pytest -q tests/integration`
-
 ---
 
 ## Rules
@@ -80,7 +76,7 @@ Run integration tests
 
 Implementation complete.
 
-Unit and integration tests pass.
+Unit tests pass.
 
 Update:
 
