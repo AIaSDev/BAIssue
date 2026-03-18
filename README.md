@@ -232,7 +232,7 @@ Agents read the current phase from `docs/TASKS.md` and run the matching skill.
 To make the AI‑SDLC skills discoverable by different agents, run:
 
 ```bash
-./scripts/setup-skills.sh
+./scripts/setup.sh
 ```
 
 This script creates symlinks to the `skills/` directory for common agents:
