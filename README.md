@@ -232,7 +232,7 @@ Agents read the current phase from `docs/TASKS.md` and run the matching skill.
 To make the AI‑SDLC skills discoverable by different agents, run:
 
 ```bash
-./scripts/setup.sh
+./scripts/setup-skills.sh
 ```
 
 This script creates symlinks to the `skills/` directory for common agents:
@@ -254,6 +254,15 @@ Bootstrap project
 Follow AGENTS.md.
 
 Execute phase 0 BOOTSTRAP.
+
+System:
+Extend the existing BAIssue issue tracker.
+
+Constraints:
+- Prefer adapting existing structure and files
+- Do not create unnecessary files
+- Ask before removing anything
+- Keep all artifacts minimal
 
 Use skill: ai-sdlc-0-bootstrap
 ```
