@@ -1,10 +1,10 @@
 from typing import Dict, Optional
 
-from app.domain.issue import Issue, IssueStatus
+from app.domain.entities import Issue, IssueStatus
 from app.application.repositories.issue_repository import IssueRepository
 
 
-class FakeIssueRepository(IssueRepository):
+class InMemoryRepository(IssueRepository):
     def __init__(self):
         self._storage: Dict[int, Issue] = {}
         self._next_id = 1

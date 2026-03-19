@@ -4,8 +4,8 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from app.domain.issue import IssueStatus
-from app.application.issue_use_cases import IssueService
+from app.domain.entities import IssueStatus
+from app.application.use_cases import IssueService
 
 
 class IssueCreate(BaseModel):

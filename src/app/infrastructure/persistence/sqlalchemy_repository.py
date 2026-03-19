@@ -2,7 +2,7 @@ from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from app.domain.issue import Issue, IssueStatus
+from app.domain.entities import Issue, IssueStatus
 from app.infrastructure.persistence.sqlalchemy_models import IssueModel
 from app.application.repositories.issue_repository import IssueRepository
 
