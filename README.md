@@ -19,14 +19,14 @@ The project follows **Clean Architecture**, with dependencies pointing inward.
 ```
 src/app/
 ├── domain/                         # Pure domain entities
-│   └── issue.py                    # Issue entity with validation and status
+│   └── entities.py                 # Entities entity with validation and status
 ├── application/                    # Application services (business logic)
-│   ├── issue_use_cases.py          # Issue use cases / business logic
+│   ├── use_cases.py                # Use cases / business logic
 │   └── repositories/               # Repository interfaces
-│       └── issue_repository.py
+│       └── repository.py
 ├── interfaces/
 │   └── api/                        # HTTP layer (FastAPI router)
-│       └── issue_api.py            # API routes with service creation
+│       └── api.py                  # API routes with service creation
 ├── infrastructure/
 │   ├── config.py                   # Environment-based configuration (.env optional)
 │   ├── database.py                 # SQLAlchemy engine, session, Base
@@ -128,7 +128,7 @@ Open:
 ### Unit tests
 - No FastAPI
 - No SQLAlchemy
-- Uses a fake in-memory repository
+- Uses an in-memory repository for testing.
 
 ```bash
 export PYTHONPATH=$PWD/src
