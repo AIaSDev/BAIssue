@@ -1,12 +1,12 @@
 import pytest
 
-from app.domain.issue import IssueStatus
-from app.application.issue_use_cases import IssueService
-from fake_repository import FakeIssueRepository
+from app.domain.entities import IssueStatus
+from app.application.use_cases import IssueService
+from in_memory_repository import InMemoryRepository
 
 
 def test_create_issue_default_status_open():
-    repo = FakeIssueRepository()
+    repo = InMemoryRepository()
     svc = IssueService(repo)
 
     issue = svc.create_issue("Test")
@@ -14,7 +14,7 @@ def test_create_issue_default_status_open():
 
 
 def test_close_issue():
-    repo = FakeIssueRepository()
+    repo = InMemoryRepository()
     svc = IssueService(repo)
 
     issue = svc.create_issue("Test")
@@ -24,7 +24,7 @@ def test_close_issue():
 
 
 def test_reopen_issue():
-    repo = FakeIssueRepository()
+    repo = InMemoryRepository()
     svc = IssueService(repo)
 
     issue = svc.create_issue("Test")
@@ -35,7 +35,7 @@ def test_reopen_issue():
 
 
 def test_delete_issue():
-    repo = FakeIssueRepository()
+    repo = InMemoryRepository()
     svc = IssueService(repo)
 
     issue = svc.create_issue("Test")
@@ -44,14 +44,14 @@ def test_delete_issue():
 
 
 def test_delete_issue_not_found():
-    repo = FakeIssueRepository()
+    repo = InMemoryRepository()
     svc = IssueService(repo)
 
     assert svc.delete_issue(999) is False
 
 
 def test_create_issue_empty_title_raises():
-    repo = FakeIssueRepository()
+    repo = InMemoryRepository()
     svc = IssueService(repo)
 
     with pytest.raises(ValueError):

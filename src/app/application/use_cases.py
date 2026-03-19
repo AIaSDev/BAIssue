@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from typing import Optional
 
-from app.domain.issue import Issue, IssueStatus
+from app.domain.entities import Issue, IssueStatus
 from app.application.repositories.issue_repository import IssueRepository
 
 
