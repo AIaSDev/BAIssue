@@ -5,6 +5,16 @@ description: Implement the current use case using strict TDD.
 
 # PHASE 3 — DEVELOP
 
+## Fast Track exception
+
+For eligible Fast Track work, use the active specification or task entry defined
+in `AGENTS.md`. For a behavior correction, write a failing regression test at the
+relevant boundary before implementing the fix; adding tests at unrelated layers
+is not required. Run relevant tests and record results. For documentation-only
+work, edit and verify content and links without inventing code tests. This
+scoped path replaces the full test-layer sequence below, not required CI or
+review. Record phase 3 and report only checks actually performed.
+
 ## Goal
 
 Implement the current use case using **Test-Driven Development**.
