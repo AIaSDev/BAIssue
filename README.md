@@ -2,6 +2,12 @@
 
 A minimal **FastAPI** issue tracker (Business AI wordplay) demonstrating **Clean Architecture** with **SQLite** (development & CI) and **PostgreSQL** (production) support.
 
+This repository is the **AI-SDLC reference implementation** for the module. It is an example application to inspect and extend, not the student project template.
+
+- [AI-SDLC method documentation](https://docs.aisl.science/ai-sdlc)
+- [AI-SDLC project template](https://github.com/AIaSDev/ai-sdlc-template)
+- [Module organisation](https://github.com/AIaSDev)
+
 ## What is this?
 
 **BAIssue** is a small REST API for managing issues (a minimal subset of GitHub Issues). It is designed primarily for **education** and demonstrates:
@@ -206,138 +212,17 @@ Workflow: **`.github/workflows/cd-render.yml`**
 - Render deploys the **latest GHCR image**
 - Triggered via a **Render Deploy Hook** URL stored as a GitHub secret
 
-## AI‑SDLC Workflow
+## AI-SDLC role
 
-This repository follows the **AI‑SDLC** controlled by:
+BAIssue demonstrates the complete repository-local workflow in a working Python application:
 
-- `AGENTS.md` — workflow router
-- `docs/TASKS.md` — lifecycle phase
-- `skills/ai-sdlc-*` — phase execution
+- `AGENTS.md` routes the lifecycle phases.
+- `docs/TASKS.md` records the current phase and use case.
+- `docs/PROJECT.md` describes the application architecture and commands.
+- `docs/specs/` contains executable use-case specifications.
+- `skills/ai-sdlc-*` contains the phase-specific execution guidance.
 
-Agents read the current phase from `docs/TASKS.md` and run the matching skill.
-
-### Phases
-
-| Phase | Skill |
-|------|------|
-| 0 BOOTSTRAP | `skills/ai-sdlc-0-bootstrap` |
-| 1 SPECIFY | `skills/ai-sdlc-1-specify` |
-| 2 DESIGN | `skills/ai-sdlc-2-design` |
-| 3 DEVELOP | `skills/ai-sdlc-3-develop` |
-| 4 VALIDATE | `skills/ai-sdlc-4-validate` |
-| 5 DEPLOY | `skills/ai-sdlc-5-deploy` |
-
-### Agent SKILL Setup
-
-To make the AI‑SDLC skills discoverable by different agents, run:
-
-```bash
-./scripts/setup-skills.sh
-```
-
-This script creates symlinks to the `skills/` directory for common agents:
-
-- `.agents/skills` — GitHub Copilot, OpenAI Codex, Cline, and other agent tools
-- `.claude/skills` — Claude Code
-
-The canonical location of all skills in this repository remains:
-
-```
-skills/
-```
-
-### Minimal example prompts
-
-Bootstrap project
-
-```
-Follow AGENTS.md.
-
-Execute phase 0 BOOTSTRAP.
-
-System:
-Extend the existing BAIssue issue tracker.
-
-Constraints:
-- Prefer adapting existing structure and files
-- Do not create unnecessary files
-- Ask before removing anything
-- Keep all artifacts minimal
-
-Use skill: ai-sdlc-0-bootstrap
-```
-
-Specify use case
-
-```
-Follow AGENTS.md.
-
-Execute phase 1 SPECIFY.
-
-User story:
-Users can add comments to an issue via the REST API and web app. 
-A comment contains text, author name, and timestamp. 
-Users can list comments for an issue.
-
-Use skill: ai-sdlc-1-specify
-```
-
-Design architecture
-
-```
-Follow AGENTS.md.
-
-Execute phase 2 DESIGN for the current use case.
-
-Use skill: ai-sdlc-2-design
-```
-
-Develop via TDD
-
-```
-Follow AGENTS.md.
-
-Execute phase 3 DEVELOP for the current use case.
-
-Use skill: ai-sdlc-3-develop
-```
-
-Validate release
-
-```
-Follow AGENTS.md.
-
-Execute phase 4 VALIDATE for the current use case.
-
-Use skill: ai-sdlc-4-validate
-```
-
-Deploy
-
-```
-Follow AGENTS.md.
-
-Execute phase 5 DEPLOY for the current use case.
-
-Use skill: ai-sdlc-5-deploy
-
-CD-Workflow: .github/workflows/cd-render.yml
-```
-
-### Principle
-
-Development follows:
-
-```
-Specification → Tests → Code
-```
-
-Artifacts:
-
-- Use cases: `docs/specs/UC-XXX.md`
-- Architecture: `docs/PROJECT.md`
-- Lifecycle state: `docs/TASKS.md`
-- Execution logic: `skills/ai-sdlc-*`
+Use the [AI-SDLC template](https://github.com/AIaSDev/ai-sdlc-template) when starting a new project. Consult BAIssue for concrete architectural and testing examples.
 
 ## License
 

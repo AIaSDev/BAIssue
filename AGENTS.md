@@ -33,6 +33,9 @@ DEPLOY → SPECIFY (feedback)
 2. docs/PROJECT.md  
 3. docs/specs/UC-[NNN]-[NAME].md  
 
+The human-readable method documentation is maintained at:
+https://docs.aisl.science/ai-sdlc
+
 ---
 
 ## Phase → Skill
