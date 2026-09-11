@@ -5,13 +5,10 @@ description: Create or update a minimal use case specification.
 
 # PHASE 1 — SPECIFY
 
-## Fast Track exception
+## Fast Track
 
-For an eligible Fast Track change, follow the criteria and record defined in
-`AGENTS.md` instead of the full UC steps below. Update an existing specification
-when behavior needs clarification; otherwise record the scope, acceptance and
-validation plan in `docs/TASKS.md`. Do not create a UC only for Fast Track.
-Do not write code or tests in this phase. Record phase 1 as usual.
+Use the existing UC or task entry per `AGENTS.md`; no new UC required.
+Record acceptance and planned checks, then phase 1. Skip the full UC steps below.
 
 ## Goal
 

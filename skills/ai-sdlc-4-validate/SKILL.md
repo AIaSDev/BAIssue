@@ -5,17 +5,11 @@ description: Verify repository readiness for release.
 
 # PHASE 4 — VALIDATE
 
-## Fast Track exception
+## Fast Track
 
-For eligible Fast Track work, follow the validation plan recorded under
-`AGENTS.md`: run relevant regression/tests for behavior changes or content/link
-checks for documentation-only changes. Record commands or checks, actual results
-and omitted checks with reasons in the active task entry. Required CI and review
-still apply. This replaces the full release-readiness checklist below for this
-scoped change only: do not claim the repository is release-ready, create unrelated
-Docker/release files, or publish/deploy as a side effect. Record phase 4 with this
-limited validation scope. If scope exceeds Fast Track criteria, use the regular
-flow; a later release still needs its normal validation.
+Run planned checks; record results, omitted checks with reasons, and phase 4.
+Skip the release-readiness checklist below; do not claim full release readiness.
+Required CI/review remain; no incidental release or deployment.
 
 ## Goal
 
