@@ -9,7 +9,7 @@ SQLite for development and CI and PostgreSQL for production.
 This repository is a reference implementation. New student projects should
 start from the [AI-SDLC project template](https://github.com/AIaSDev/ai-sdlc-template).
 The canonical human-readable method documentation is maintained in
-[AISL Docs](https://docs.aisl.science/ai-sdlc).
+[AISL Docs](https://docs.aisl.science/learning-and-resources/ai-sdlc).
 
 ## Architecture
 

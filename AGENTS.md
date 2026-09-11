@@ -34,7 +34,7 @@ DEPLOY → SPECIFY (feedback)
 3. docs/specs/UC-[NNN]-[NAME].md  
 
 The human-readable method documentation is maintained at:
-https://docs.aisl.science/ai-sdlc
+https://docs.aisl.science/learning-and-resources/ai-sdlc
 
 ---
 
