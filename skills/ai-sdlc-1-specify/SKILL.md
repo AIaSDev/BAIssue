@@ -76,10 +76,4 @@ Do not add unnecessary text.
 
 UC specification created or updated.
 
-Update:
-
-docs/TASKS.md
-
-Set:
-
-PHASE → 1
+Record phase 1 and status in `docs/TASKS.md` per `AGENTS.md`.

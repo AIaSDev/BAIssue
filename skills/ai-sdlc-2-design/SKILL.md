@@ -64,10 +64,6 @@ Prefer **extending existing artifacts** instead of creating new ones.
 
 ## Rules
 
-- Respect Clean Architecture  
-
-  domain ← application ← interfaces ← infrastructure
-
 - Do not implement code.
 - Do not generate tests.
 - Keep architecture descriptions minimal.
@@ -78,10 +74,4 @@ Prefer **extending existing artifacts** instead of creating new ones.
 
 Architecture verified or minimally updated.
 
-Update:
-
-docs/TASKS.md
-
-Set:
-
-PHASE → 2
+Record phase 2 and status in `docs/TASKS.md` per `AGENTS.md`.

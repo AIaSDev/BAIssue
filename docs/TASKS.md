@@ -1,6 +1,7 @@
 # TASKS.md
 
 PHASE: 0
+STATUS: ready
 
 (0=Bootstrap | 1=Specify | 2=Design | 3=Develop | 4=Validate | 5=Deploy)
 

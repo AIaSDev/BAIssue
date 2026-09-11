@@ -4,18 +4,12 @@ Repository state lives in:
 
 docs/TASKS.md
 
-Agents maintain task state; changes to this router follow the review rules below.
+Maintain `docs/TASKS.md`: PHASE = selected phase; STATUS = ready, in-progress,
+done or blocked. Set in-progress on entry, done only after the phase output is
+verified, or blocked with a reason. Keep PHASE on completion; an explicitly
+selected next phase starts as ready. Changes to this router require human review.
 
 ---
-
-## Phases
-
-0 BOOTSTRAP  
-1 SPECIFY  
-2 DESIGN  
-3 DEVELOP  
-4 VALIDATE  
-5 DEPLOY  
 
 Phases may be **skipped or repeated**.
 
@@ -81,8 +75,7 @@ Run container
 ## Rules
 
 - Use **English** for all generated content.
-- Prefer **updating existing artifacts** instead of creating new ones.
-- Only create artifacts **if they do not exist**.
+- Update existing artifacts; create only what is missing.
 - Keep artifacts **minimal**.
 - Avoid unnecessary comments in code.
 - Follow **TDD** (tests before code).

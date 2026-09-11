@@ -8,6 +8,15 @@ This repository is the **AI-SDLC reference implementation** for the module. It i
 - [AI-SDLC project template](https://github.com/AIaSDev/ai-sdlc-template)
 - [Module organisation](https://github.com/AIaSDev)
 
+## Agent setup
+
+Run `bash scripts/setup-skills.sh` from the repository root.
+Choose **1** for `.agents/skills` (Copilot/Codex), **2** for `.claude/skills`,
+or **3** for both. The script links to the canonical `skills/` directory and
+falls back to copying if links are unavailable. Existing destinations are kept;
+copies must be refreshed manually after skill changes. Verify discovery in your
+agent; setup does not install or configure the agent itself.
+
 ## What is this?
 
 **BAIssue** is a small REST API for managing issues (a minimal subset of GitHub Issues). It is designed primarily for **education** and demonstrates:

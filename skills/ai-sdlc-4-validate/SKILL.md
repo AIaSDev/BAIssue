@@ -110,10 +110,4 @@ Unit and integration tests pass.
 
 Repository verified.
 
-Update:
-
-docs/TASKS.md
-
-Set:
-
-PHASE → 4
+Record phase 4 and status in `docs/TASKS.md` per `AGENTS.md`.

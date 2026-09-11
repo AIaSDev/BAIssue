@@ -107,19 +107,6 @@ Ask the user before removing anything.
 
 Repository aligned with intended system.
 
-Update:
-
-docs/TASKS.md
-
-Set:
-
-CURRENT PHASE → 1
+Record phase 0 and status in `docs/TASKS.md` per `AGENTS.md`.
 
 ---
-
-## Rules
-
-- Prefer adapting existing artifacts over creating new ones.
-- Keep all artifacts minimal.
-- Do not remove files without explicit user confirmation.
-- Ask if the system scope or architecture is unclear.

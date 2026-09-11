@@ -48,10 +48,4 @@ If no workflow exists:
 
 Deployment workflow verified or updated.
 
-Update:
-
-docs/TASKS.md
-
-Set:
-
-PHASE → 5
+Record phase 5 and status in `docs/TASKS.md` per `AGENTS.md`.
