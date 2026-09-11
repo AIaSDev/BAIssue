@@ -224,6 +224,121 @@ BAIssue demonstrates the complete repository-local workflow in a working Python 
 
 Use the [AI-SDLC template](https://github.com/AIaSDev/ai-sdlc-template) when starting a new project. Consult BAIssue for concrete architectural and testing examples.
 
+## Example AI-SDLC walkthrough
+
+The following prompts show one complete AI-SDLC pass through this reference
+application. They are deliberately small: each phase reads the repository
+state, performs only the work belonging to that phase and updates the relevant
+workflow artefact.
+
+### 0. Bootstrap the project
+
+```text
+Follow AGENTS.md.
+
+Execute phase 0 BOOTSTRAP.
+
+System:
+Extend the existing issue tracker.
+
+Constraints:
+- Prefer adapting existing structure and files
+- Do not create unnecessary files
+- Ask before removing anything
+- Keep all artifacts minimal
+
+Use skill: ai-sdlc-0-bootstrap
+```
+
+Expected result: the application context and architecture are recorded in
+`docs/PROJECT.md`, and the lifecycle state advances to SPECIFY in
+`docs/TASKS.md`.
+
+### 1. Specify a use case
+
+```text
+Follow AGENTS.md.
+
+Execute phase 1 SPECIFY.
+
+User story:
+Users can add comments to an issue via the REST API and web app.
+A comment contains text, author name, and timestamp.
+Users can list comments for an issue.
+
+Use skill: ai-sdlc-1-specify
+```
+
+Expected result: one executable use-case specification is created or updated
+in `docs/specs/`, including scope, acceptance criteria and test intent. No code
+is generated in this phase.
+
+### 2. Design the slice
+
+```text
+Follow AGENTS.md.
+
+Execute phase 2 DESIGN for the current use case.
+
+Use skill: ai-sdlc-2-design
+```
+
+Expected result: the required domain, application, interface and infrastructure
+components are identified, and the work is sliced vertically in
+`docs/TASKS.md`.
+
+### 3. Develop with TDD
+
+```text
+Follow AGENTS.md.
+
+Execute phase 3 DEVELOP for the current use case.
+
+Use skill: ai-sdlc-3-develop
+```
+
+Expected result: integration tests, unit tests and implementation are produced
+in that order. The tests are derived from the acceptance criteria and the
+domain rules.
+
+### 4. Validate the release
+
+```text
+Follow AGENTS.md.
+
+Execute phase 4 VALIDATE for the current use case.
+
+Use skill: ai-sdlc-4-validate
+```
+
+Expected result: local tests, end-to-end tests, the container build and the
+GitHub Actions workflows provide release evidence.
+
+### 5. Deploy the validated artifact
+
+```text
+Follow AGENTS.md.
+
+Execute phase 5 DEPLOY for the current use case.
+
+Use skill: ai-sdlc-5-deploy
+
+CD workflow: .github/workflows/cd-render.yml
+```
+
+Expected result: deployment triggers, required secrets, post-deployment checks
+and recovery expectations are documented before deployment is run.
+
+### Working principle
+
+```text
+Specification → Tests → Code → Validation → Release → Deployment
+```
+
+The prompts are examples for this reference application. For a new project,
+replace the system description, user story, technology-specific commands and
+deployment workflow with the project context recorded in `docs/PROJECT.md`.
+
 ## License
 
 This project is intended for **educational use**.
