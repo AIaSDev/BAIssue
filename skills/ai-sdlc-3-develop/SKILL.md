@@ -5,76 +5,19 @@ description: Implement the current use case using strict TDD.
 
 # PHASE 3 — DEVELOP
 
-## Fast Track
+Input: active UC/task and `docs/PROJECT.md`.
 
-Replace the full test sequence with a regression test before the fix.
-Documentation only → check content and links, no code tests.
-Use the UC/task entry; record actual results and phase 3.
+## Actions
 
-## Goal
+1. Derive integration tests from acceptance criteria; unit tests from domain rules and use case logic.
+2. Extend existing tests first. Write integration tests, then unit tests, then implementation.
+3. Follow RED → GREEN → REFACTOR.
+4. Run project unit and integration tests from `docs/PROJECT.md`.
 
-Implement the current use case using **Test-Driven Development**.
-
----
-
-## Source of Truth
-
-docs/TASKS.md  
-docs/specs/UC-[NNN]-[NAME].md  
-docs/PROJECT.md
-
----
-
-## Test Derivation
-
-Derive tests from the UC.
-
-Acceptance → Integration tests  
-Domain rules → Unit tests  
-Use case logic → Unit tests  
-
-Locations
-
-tests/integration  
-tests/unit  
-
-Prefer **extending existing test files**.
-
-Create new files only if necessary.
-
----
-
-## Order
-
-1. Integration tests  
-2. Unit tests  
-3. Implementation
-
-Follow TDD:
-
-RED → GREEN → REFACTOR
-
----
-
-## Commands
-
-Run unit tests
-
-`pytest -q tests/unit`
-
----
-
-## Rules
-
-- Tests before code.
-- Ask the user if requirements are unclear.
-
----
+Fast Track: regression test before the fix. Documentation-only changes: check content and links instead.
 
 ## Output
 
-Implementation complete.
-
-Unit tests pass.
+Implementation with passing unit and integration tests; record actual results.
 
 Record phase 3 and status in `docs/TASKS.md` per `AGENTS.md`.

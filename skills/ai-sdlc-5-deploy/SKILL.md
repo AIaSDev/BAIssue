@@ -1,51 +1,19 @@
 ---
 name: ai-sdlc-5-deploy
 description: Verify or collaboratively define the deployment workflow.
-disable-model-invocation: true
 ---
 
 # PHASE 5 — DEPLOY
 
-## Goal
+## Actions
 
-Verify the **continuous deployment workflow** for the validated artifact.
-
-Deployment is defined **together with the user**.
-
----
-
-## Check
-
-Inspect:
-
-.github/workflows/
-
-If a CD workflow exists:
-
-- verify trigger
-- verify deployment step
-- verify required secrets
-
-Update only if necessary.
-
-If no workflow exists:
-
-- ask the user for deployment platform
-- propose a minimal workflow
-- create only after confirmation
-
----
-
-## Rules
-
-- Prefer **verifying existing workflows**.
-- Do not overwrite workflows without confirmation.
-- Never store secrets in the repository.
-
----
+1. Inspect the existing deployment workflow: trigger, validated artifact, deployment, required secrets and post-deployment checks.
+2. If absent, agree on the platform and workflow with the user before creating it.
+3. Update minimally; do not overwrite workflows without confirmation.
+4. Require explicit authorization before deployment; never store secrets in the repository.
 
 ## Output
 
-Deployment workflow verified or updated.
+Deployment workflow verified or updated. Report deployment and smoke-test results only if actually executed.
 
 Record phase 5 and status in `docs/TASKS.md` per `AGENTS.md`.

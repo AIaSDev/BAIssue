@@ -1,72 +1,49 @@
 #!/usr/bin/env bash
+# Requires Bash (Git Bash/WSL on Windows). Canonical instructions stay unchanged.
+# Usage: setup-skills.sh [copilot|codex|opencode|claude|cline|junie|both]
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+[[ -d skills && -f AGENTS.md ]] || { echo "Missing skills/ or AGENTS.md" >&2; exit 1; }
 
-set -e
-
-echo "AI-SDLC Skill Setup"
-echo "-------------------"
-
-if [ ! -d "skills" ]; then
-  echo "Error: skills/ directory not found."
-  exit 1
+choice=${1:-}
+if [[ -z "$choice" ]]; then
+  printf '%s\n' '1) .agents (Copilot, Codex, OpenCode)' '2) .claude (Claude Code, Cline)' '3) both' '4) cancel'
+  read -r -p 'Selection [1-4]: ' choice
 fi
+[[ $# -le 1 ]] || { echo "Expected one target." >&2; exit 1; }
 
-echo ""
-echo "Select the tools you want to support:"
-echo ""
-echo "1) .agents   (GitHub Copilot, OpenAI Codex, other agents)"
-echo "2) .claude   (Claude Code, Cline)"
-echo "3) both"
-echo "4) cancel"
-echo ""
-
-read -p "Selection [1-4]: " choice
-
-create_link () {
-  target_dir=$1
-
-  mkdir -p "$target_dir"
-
-  if [ -e "$target_dir/skills" ]; then
-    echo "✓ $target_dir/skills already exists"
-    return
-  fi
-
-  if ln -s ../skills "$target_dir/skills" 2>/dev/null; then
-    echo "✓ Symlink created: $target_dir/skills → ../skills"
+link_skills() {
+  local target="$1/skills"
+  mkdir -p "$1"
+  if [[ -L "$target" ]]; then
+    [[ "$(readlink "$target")" == ../skills && -d "$target" ]] ||
+      { echo "Conflicting link: $target; unchanged." >&2; return 1; }
+  elif [[ -e "$target" ]]; then
+    [[ -d "$target" ]] && diff -qr skills "$target" >/dev/null ||
+      { echo "Conflicting or stale copy: $target; unchanged." >&2; return 1; }
   else
-    echo "Symlink not supported, copying skills instead..."
-    cp -r skills "$target_dir/skills"
-    echo "✓ Skills copied to $target_dir/skills"
+    ln -s ../skills "$target" 2>/dev/null || cp -R skills "$target"
+  fi
+  echo "Ready: $target"
+}
+
+claude_bridge() {
+  if [[ -e CLAUDE.md || -L CLAUDE.md ]]; then
+    echo "Existing CLAUDE.md preserved; ensure it imports @AGENTS.md."
+  else
+    printf '%s\n' '@AGENTS.md' > CLAUDE.md
+    echo "Created CLAUDE.md adapter."
   fi
 }
 
-case $choice in
-  1)
-    create_link ".agents"
-    ;;
-  2)
-    create_link ".claude"
-    ;;
-  3)
-    create_link ".agents"
-    create_link ".claude"
-    ;;
-  *)
-    echo "Cancelled."
-    exit 0
-    ;;
+case "$choice" in
+  1|.agents|copilot|codex|opencode) link_skills .agents ;;
+  2|.claude|claude) link_skills .claude; claude_bridge ;;
+  cline) link_skills .claude ;;
+  3|both) link_skills .agents; link_skills .claude; claude_bridge ;;
+  junie) echo "Junie uses AGENTS.md; follow the linked phase instructions." ;;
+  4|cancel) exit 0 ;;
+  -h|--help) echo "Usage: $0 [copilot|codex|opencode|claude|cline|junie|both]"; exit 0 ;;
+  *) echo "Unknown target: $choice" >&2; exit 1 ;;
 esac
-
-echo ""
-echo "Setup complete."
-echo ""
-echo "Detected structure:"
-echo ""
-
-[ -d ".agents/skills" ] && echo "✓ .agents/skills"
-[ -d ".claude/skills" ] && echo "✓ .claude/skills"
-
-echo ""
-echo "Your canonical skills remain in:"
-echo "skills/"
-echo ""
+echo "Canonical skills remain in skills/. Run setup in each fresh checkout; verify discovery in your agent."

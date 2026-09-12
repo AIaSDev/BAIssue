@@ -1,86 +1,43 @@
-# AGENTS.md — AI-SDLC Router
+# AI-SDLC Router
 
-Repository state lives in:
+## State and context
 
-docs/TASKS.md
+Read `docs/TASKS.md`, `docs/PROJECT.md`, then the active UC or Fast Track task.
+Use project commands from `docs/PROJECT.md`; do not assume a technology stack.
 
-Maintain `docs/TASKS.md`: PHASE = selected phase; STATUS = ready, in-progress,
-done or blocked. Set in-progress on entry, done only after the phase output is
-verified, or blocked with a reason. Keep PHASE on completion; an explicitly
-selected next phase starts as ready. Changes to this router require human review.
+PHASE selects the phase for the current branch/task in `docs/TASKS.md`.
+STATUS: ready → in-progress → done (verified output), or blocked (reason).
+Keep PHASE on completion; explicitly select the next phase as ready.
+Phases may repeat or be skipped with a reason.
+Changes to this router require human review.
 
----
+## Phases
 
-Phases may be **skipped or repeated**.
+0. [BOOTSTRAP](skills/ai-sdlc-0-bootstrap/SKILL.md)
+1. [SPECIFY](skills/ai-sdlc-1-specify/SKILL.md)
+2. [DESIGN](skills/ai-sdlc-2-design/SKILL.md)
+3. [DEVELOP](skills/ai-sdlc-3-develop/SKILL.md)
+4. [VALIDATE](skills/ai-sdlc-4-validate/SKILL.md)
+5. [DEPLOY](skills/ai-sdlc-5-deploy/SKILL.md)
 
-Typical iteration:
-
-SPECIFY → DESIGN → DEVELOP → VALIDATE  
-VALIDATE → SPECIFY (iteration)  
-DEPLOY → SPECIFY (feedback)
-
----
+Typical loop: SPECIFY → DESIGN → DEVELOP → VALIDATE → SPECIFY.
+Deployment feedback returns to SPECIFY.
 
 ## Fast Track
 
 - Small corrections only; no feature, API, data, security, dependency or architecture changes.
-- Record scope, reason, acceptance and checks in the existing UC or `docs/TASKS.md`.
+- Record scope, reason, acceptance and checks in the existing UC or task.
 - Shorten SPECIFY; skip DESIGN with a reason. Scope grows → regular flow.
-- Keep required CI and review. Release/deployment still require authorization.
-
-## Collaboration
-
-- Human-approved decisions → ADR; current architecture → `docs/PROJECT.md`.
-- Durable rules + ADR links → `AGENTS.md`, with human approval/review.
-- Update related files together; preserve decision history and reconcile parallel changes.
-
-## Context Load Order
-
-1. docs/TASKS.md  
-2. docs/PROJECT.md  
-3. docs/specs/UC-[NNN]-[NAME].md (or the eligible Fast Track task entry)
-
-The human-readable method documentation is maintained at:
-https://docs.aisl.science/learning-and-resources/ai-sdlc
-
----
-
-## Phase → Skill
-
-0 → skills/ai-sdlc-0-bootstrap  
-1 → skills/ai-sdlc-1-specify  
-2 → skills/ai-sdlc-2-design  
-3 → skills/ai-sdlc-3-develop  
-4 → skills/ai-sdlc-4-validate  
-5 → skills/ai-sdlc-5-deploy  
-
----
-
-## Commands
-
-Run tests
-
-`pytest -q`
-
-Build container
-
-`docker build -t app:local .`
-
-Run container
-
-`docker run --rm -p 8000:8000 app:local`
-
----
+- Keep required CI and review.
 
 ## Rules
 
-- Use **English** for all generated content.
-- Update existing artifacts; create only what is missing.
-- Keep artifacts **minimal**.
-- Avoid unnecessary comments in code.
-- Follow **TDD** (tests before code).
-- Respect **Clean Architecture**  
-  domain ← application ← interfaces ← infrastructure
-- Prefer **small vertical slices** (one UC end-to-end).
+- Write English; keep artifacts and comments minimal. Update existing files first.
+- Use TDD and small vertical slices. Respect Clean Architecture: domain ← application ← interfaces ← infrastructure.
+- Ask about unclear requirements or architecture.
+- Human-approved decisions → ADRs; current architecture → `docs/PROJECT.md`.
+- Durable rules and ADR links → `AGENTS.md`, with human review.
+- Update related artifacts together; preserve decision history and reconcile parallel changes.
+- Release and deployment require explicit authorization; never commit secrets.
 
-If requirements or architecture are unclear → ask the user.
+For method details, see [AI-SDLC](https://docs.aisl.science/learning-and-resources/ai-sdlc).

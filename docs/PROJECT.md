@@ -52,6 +52,13 @@ export PYTHONPATH=$PWD/src
 python -m uvicorn app.main:app --reload
 ```
 
+Build and run the container:
+
+```bash
+docker build -t app:local .
+docker run --rm -p 8000:8000 app:local
+```
+
 ## Dependencies
 
 Declared in `requirements.txt`. Runtime configuration is supplied through
