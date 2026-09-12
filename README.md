@@ -2,7 +2,7 @@
 
 A minimal **FastAPI** issue tracker (Business AI wordplay) demonstrating **Clean Architecture** with **SQLite** (development & CI) and **PostgreSQL** (production) support.
 
-This repository is the **AI-SDLC reference implementation** for the module. It is an example application to inspect and extend, not the student project template.
+This repository is the reference implementation of the **AI-Assisted Software Development Life Cycle (AI-SDLC)** for the module. It is an example application to inspect and extend, not the student project template.
 
 - [AI-SDLC method documentation](https://docs.aisl.science/learning-and-resources/ai-sdlc)
 - [AI-SDLC project template](https://github.com/AIaSDev/ai-sdlc-template)
