@@ -5,19 +5,73 @@ description: Determine minimal architecture components for the current use case.
 
 # PHASE 2 — DESIGN
 
-Input: active UC and `docs/PROJECT.md`; ask if the UC is missing.
+## Decisions
 
-## Actions
+- Significant choices → `docs/adr/ADR-NNN-short-title.md` (unused number).
+- Record status, context, alternatives, decision and consequences.
+- Human acceptance → update `PROJECT.md` and propose durable rules in `AGENTS.md`.
+- Preserve superseded ADRs; review related changes together.
+- Fast Track → confirm existing architecture in the task entry; skip full DESIGN.
 
-1. Identify required domain, application, interface and infrastructure components.
-2. Verify the architecture; update only where needed.
-3. Record significant choices in `docs/adr/ADR-NNN-short-title.md` using an unused number: status, context, alternatives, decision, consequences.
-4. After human acceptance, update `docs/PROJECT.md` and propose durable rules with ADR links in `AGENTS.md`. Preserve superseded ADRs.
+## Goal
 
-Fast Track: confirm existing architecture in the task; skip full DESIGN with a reason.
+Identify the **minimal architecture components** required for the current use case.
+
+Do not generate implementation details.
+
+---
+
+## Input
+
+Current use case
+
+docs/specs/UC-[NNN]-[NAME].md
+
+Architecture reference
+
+docs/PROJECT.md
+
+If the UC does not exist → ask the user.
+
+---
+
+## Steps
+
+1. Read the use case.
+
+2. Determine required components:
+
+domain  
+application  
+interfaces  
+infrastructure  
+
+Examples:
+
+- domain entity
+- use case service
+- repository interface
+- persistence adapter
+- API endpoint
+
+3. Ensure the architecture in `docs/PROJECT.md` is sufficient.
+
+Update it **only if necessary**.
+
+Prefer **extending existing artifacts** instead of creating new ones.
+
+---
+
+## Rules
+
+- Do not implement code.
+- Do not generate tests.
+- Keep architecture descriptions minimal.
+
+---
 
 ## Output
 
-Architecture verified or minimally updated. No implementation or tests.
+Architecture verified or minimally updated.
 
 Record phase 2 and status in `docs/TASKS.md` per `AGENTS.md`.

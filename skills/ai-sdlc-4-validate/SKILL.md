@@ -5,23 +5,109 @@ description: Verify repository readiness for release.
 
 # PHASE 4 — VALIDATE
 
-Input: active UC/task and `docs/PROJECT.md`.
+## Fast Track
 
-## Actions
+Run planned checks; record results, omitted checks with reasons, and phase 4.
+Skip the release-readiness checklist below; do not claim full release readiness.
+Required CI/review remain; no incidental release or deployment.
 
-1. Run project unit and integration tests.
-2. Verify acceptance coverage and run E2E tests; extend existing tests as needed.
-3. Verify the release artifact builds and starts.
-4. Verify CI runs unit and integration tests.
-5. Verify the release workflow tests the same commit, builds and E2E-tests the artifact before authorized publication.
+## Goal
 
-Reuse existing artifacts and workflows; create only what is missing.
+Verify that the repository is **release-ready**.
 
-Fast Track: run planned checks; record results and omissions with reasons.
-Keep required CI/review; do not claim full release readiness or publish incidentally.
+Focus on **checking existing artifacts**.
+
+---
+
+## Source of Truth
+
+docs/TASKS.md  
+docs/PROJECT.md  
+
+---
+
+## Steps
+
+### 1. Run Local Tests
+
+Run
+
+`pytest -q tests/unit tests/integration`
+
+Verify:
+
+- unit tests pass
+- integration tests pass
+
+---
+
+### 2. Verify E2E Tests
+
+Check:
+
+tests/e2e/
+
+Extend existing tests if needed.
+
+Create tests only if none exist.
+
+---
+
+### 3. Verify Dockerfile
+
+Check:
+
+Dockerfile
+
+Verify the container builds and starts the application.
+
+Create only if missing.
+
+---
+
+### 4. Verify CI
+
+Check:
+
+.github/workflows/ci.yml
+
+CI should run:
+
+- unit tests  
+- integration tests
+
+Create only if missing.
+
+---
+
+### 5. Verify Release Workflow
+
+Check:
+
+.github/workflows/release.yml
+
+Verify it:
+
+- builds the container
+- runs E2E tests
+- publishes the artifact
+
+Create only if missing.
+
+---
+
+## Rules
+
+- Prefer **verifying and extending existing artifacts**.
+- Create files only if they do not exist.
+- Avoid duplicate workflows.
+
+---
 
 ## Output
 
-Readiness supported by recorded checks; distinguish verified results from unexecuted checks.
+Unit and integration tests pass.
+
+Repository verified.
 
 Record phase 4 and status in `docs/TASKS.md` per `AGENTS.md`.

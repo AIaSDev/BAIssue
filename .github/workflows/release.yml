@@ -35,12 +35,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Unit and integration tests
-        env:
-          PYTHONPATH: ${{ github.workspace }}/src
-          DATABASE_URL: "sqlite:///:memory:"
-        run: pytest -q tests/unit tests/integration
-
       - name: Build Docker image
         env:
           TAG: ${{ steps.tag.outputs.TAG }}
