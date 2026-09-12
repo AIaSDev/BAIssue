@@ -51,7 +51,8 @@ tests/e2e
 
 Rules:
 
-- create only missing directories
+- create only missing directories; do not add directory-marker files such as
+  `__init__.py` unless required by the selected language or framework
 - reuse existing structure if compatible
 - do not duplicate or restructure unnecessarily
 

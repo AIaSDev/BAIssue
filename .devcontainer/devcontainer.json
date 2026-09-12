@@ -1,4 +1,7 @@
 {
+  "remoteEnv": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
   "forwardPorts": [8000],
   "portsAttributes": {
     "8000": {
