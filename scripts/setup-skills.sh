@@ -19,7 +19,11 @@ echo "3) both"
 echo "4) cancel"
 echo ""
 
-read -p "Selection [1-4]: " choice
+# Optional argument: 1 (.agents), 2 (.claude), 3 (both), 4 (cancel).
+choice=${1:-}
+if [ -z "$choice" ]; then
+  read -p "Selection [1-4]: " choice
+fi
 
 create_link () {
   target_dir=$1
@@ -40,16 +44,25 @@ create_link () {
   fi
 }
 
+create_claude_adapter () {
+  if [ ! -e "CLAUDE.md" ] && [ ! -L "CLAUDE.md" ]; then
+    printf '%s\n' '@AGENTS.md' > CLAUDE.md
+    echo "✓ CLAUDE.md adapter created"
+  fi
+}
+
 case $choice in
   1)
     create_link ".agents"
     ;;
   2)
     create_link ".claude"
+    create_claude_adapter
     ;;
   3)
     create_link ".agents"
     create_link ".claude"
+    create_claude_adapter
     ;;
   *)
     echo "Cancelled."

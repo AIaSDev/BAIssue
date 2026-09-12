@@ -17,6 +17,8 @@ falls back to copying if links are unavailable. Existing destinations are kept;
 copies must be refreshed manually after skill changes. Verify discovery in your
 agent; setup does not install or configure the agent itself.
 
+For non-interactive setup, pass the same selection, for example `bash scripts/setup-skills.sh 1`. Selections 2 and 3 also create a missing `CLAUDE.md` containing `@AGENTS.md`; an existing file is preserved. Shared instructions and skills are not modified.
+
 ## What is this?
 
 **BAIssue** is a small REST API for managing issues (a minimal subset of GitHub Issues). It is designed primarily for **education** and demonstrates:
@@ -240,6 +242,8 @@ application. They are deliberately small: each phase reads the repository
 state, performs only the work belonging to that phase and updates the relevant
 workflow artefact.
 
+The examples explicitly name the shared instructions, phase and skill so each prompt can be used independently. A configured agent may load instructions and discover skills automatically. `Use skill:` is a plain-language request, not a universal tool command; the canonical `skills/.../SKILL.md` path identifies the same guidance. Execute only the selected phase and review its output before selecting the next.
+
 ### 0. Bootstrap the project
 
 ```text
@@ -260,8 +264,9 @@ Use skill: ai-sdlc-0-bootstrap
 ```
 
 Expected result: the application context and architecture are recorded in
-`docs/PROJECT.md`, and the lifecycle state advances to SPECIFY in
-`docs/TASKS.md`.
+`docs/PROJECT.md`. After verification, `docs/TASKS.md` records
+`PHASE: 0` and `STATUS: done`. Select SPECIFY explicitly next,
+with `PHASE: 1` and `STATUS: ready`.
 
 ### 1. Specify a use case
 
@@ -293,8 +298,9 @@ Use skill: ai-sdlc-2-design
 ```
 
 Expected result: the required domain, application, interface and infrastructure
-components are identified, and the work is sliced vertically in
-`docs/TASKS.md`.
+components are identified and `docs/PROJECT.md` is updated if needed.
+Slicing the work into vertical tasks in `docs/TASKS.md` is recommended,
+but is not an explicit output of the DESIGN skill.
 
 ### 3. Develop with TDD
 
