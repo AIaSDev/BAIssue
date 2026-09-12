@@ -74,7 +74,7 @@ Run container
 
 ## Rules
 
-- Use **English** for all generated content.
+- Communicate and work in the language used in the user prompt.
 - Update existing artifacts; create only what is missing.
 - Keep artifacts **minimal**.
 - Avoid unnecessary comments in code.
