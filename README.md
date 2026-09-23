@@ -247,20 +247,13 @@ The examples explicitly name the shared instructions, phase and skill so each pr
 ### 0. Bootstrap the project
 
 ```text
-Follow AGENTS.md.
-
-Execute phase 0 BOOTSTRAP.
-
-System:
-Extend the existing issue tracker.
+Execute phase 0 of AI-SDLC for the existing BAIssue project.
 
 Constraints:
 - Prefer adapting existing structure and files
 - Do not create unnecessary files
 - Ask before removing anything
 - Keep all artifacts minimal
-
-Use skill: ai-sdlc-0-bootstrap
 ```
 
 Expected result: the application context and architecture are recorded in
@@ -271,16 +264,11 @@ with `PHASE: 1` and `STATUS: ready`.
 ### 1. Specify a use case
 
 ```text
-Follow AGENTS.md.
+Execute phase 1 of AI-SDLC.
 
-Execute phase 1 SPECIFY.
-
-User story:
 Users can add comments to an issue via the REST API and web app.
 A comment contains text, author name, and timestamp.
 Users can list comments for an issue.
-
-Use skill: ai-sdlc-1-specify
 ```
 
 Expected result: one executable use-case specification is created or updated
@@ -290,11 +278,7 @@ is generated in this phase.
 ### 2. Design the slice
 
 ```text
-Follow AGENTS.md.
-
-Execute phase 2 DESIGN for the current use case.
-
-Use skill: ai-sdlc-2-design
+Execute phase 2 of AI-SDLC for the comments use case.
 ```
 
 Expected result: the required domain, application, interface and infrastructure
@@ -305,11 +289,7 @@ but is not an explicit output of the DESIGN skill.
 ### 3. Develop with TDD
 
 ```text
-Follow AGENTS.md.
-
-Execute phase 3 DEVELOP for the current use case.
-
-Use skill: ai-sdlc-3-develop
+Execute phase 3 of AI-SDLC for the comments use case.
 ```
 
 Expected result: integration tests, unit tests and implementation are produced
@@ -319,11 +299,7 @@ domain rules.
 ### 4. Validate the release
 
 ```text
-Follow AGENTS.md.
-
-Execute phase 4 VALIDATE for the current use case.
-
-Use skill: ai-sdlc-4-validate
+Execute phase 4 of AI-SDLC for the comments use case.
 ```
 
 Expected result: local tests, end-to-end tests, the container build and the
@@ -332,11 +308,7 @@ GitHub Actions workflows provide release evidence.
 ### 5. Deploy the validated artifact
 
 ```text
-Follow AGENTS.md.
-
-Execute phase 5 DEPLOY for the current use case.
-
-Use skill: ai-sdlc-5-deploy
+Execute phase 5 of AI-SDLC for the comments use case.
 
 CD workflow: .github/workflows/cd-render.yml
 ```
